@@ -23,5 +23,5 @@ abstract class PreferenceModule {
 //    }
 
     @Binds
-    abstract fun bindPplayersCache(playersPrefs: PlayersPreferenceImpl): PlayersPreference
+    abstract fun bindPplayersPreference(playersPrefs: PlayersPreferenceImpl): PlayersPreference
 }

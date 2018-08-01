@@ -26,6 +26,7 @@ ext {
     constrainLayoutVersion = '1.1.2'
     materialLetterVersion = '0.2.3'
     likeButtonVersion = '0.2.3'
+    chromeCustomTabsVersion = '0.1.6'
 
     //Testing
     jUnitVersion = '4.12'
@@ -133,7 +134,7 @@ ext {
             androidAnnotations: "com.android.support:support-annotations:${supportLibraryVersion}",
             archRuntime:        "android.arch.lifecycle:runtime:${archCompVersion}",
             archExtensions:     "android.arch.lifecycle:extensions:${archCompVersion}",
-            archCompiler:       "android.arch.lifecycle:compiler:${archCompVersion}",
+            archCompiler:       "android.arch.lifecycle:compiler:${archCompVersion}"
     ]
 
     presentationTestDependencies = [
@@ -159,6 +160,7 @@ ext {
             androidSupportV13:  "com.android.support:support-v13:${supportLibraryVersion}",
             appCompatV7:        "com.android.support:appcompat-v7:${supportLibraryVersion}",
             supportRecyclerView:"com.android.support:recyclerview-v7:${supportLibraryVersion}",
+            supportCardView:    "com.android.support:cardview-v7:$supportLibraryVersion",
             constraintLayout:    "com.android.support.constraint:constraint-layout:${constrainLayoutVersion}",
             supportDesign:      "com.android.support:design:${supportLibraryVersion}",
             timber:             "com.jakewharton.timber:timber:${timberVersion}",
@@ -169,7 +171,8 @@ ext {
             roomCompiler:       "android.arch.persistence.room:compiler:${archCompVersion}",
             roomRxJava:         "android.arch.persistence.room:rxjava2:${archCompVersion}",
             materialLetter:     "com.github.ivbaranov:materiallettericon:${materialLetterVersion}",
-            likeButton:         "com.github.jd-alexander:LikeButton:${likeButtonVersion}"
+            likeButton:         "com.github.jd-alexander:LikeButton:${likeButtonVersion}",
+            chromeCustomTabs:   "com.novoda:simple-chrome-custom-tabs:${chromeCustomTabsVersion}"
     ]
 
     mobileUiTestDependencies = [

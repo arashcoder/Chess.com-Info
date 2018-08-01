@@ -9,6 +9,10 @@
         android:allowBackup="true"
         android:theme="@style/Activity.Search">
         <activity android:name=".search.SearchActivity">
+
+        </activity>
+        <activity android:name=".search.HomeActivity"
+            android:theme="@style/Activity.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

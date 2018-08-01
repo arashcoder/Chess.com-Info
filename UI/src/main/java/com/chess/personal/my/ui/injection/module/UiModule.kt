@@ -3,6 +3,7 @@ package com.chess.personal.my.ui.injection.module
 
 import com.chess.personal.my.domain.executer.PostExecutionThread
 import com.chess.personal.my.ui.UiThread
+import com.chess.personal.my.ui.search.HomeActivity
 import com.chess.personal.my.ui.search.SearchActivity
 import dagger.Binds
 import dagger.Module
@@ -15,8 +16,9 @@ abstract class UiModule {
     abstract fun bindPostExecutionThread(uiThread: UiThread): PostExecutionThread
 
     @ContributesAndroidInjector
-    abstract fun contributesBrowseActivity(): SearchActivity
+    abstract fun contributesHomeActivity(): HomeActivity
 
-    //@ContributesAndroidInjector
-    //abstract fun contributesBookmarkedActivity(): BookmarkedActivity
+    @ContributesAndroidInjector
+    abstract fun contributesSearchActivity(): SearchActivity
+
 }

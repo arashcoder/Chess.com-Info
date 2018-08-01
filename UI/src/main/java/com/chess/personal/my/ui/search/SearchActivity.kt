@@ -15,7 +15,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
 
     @Inject lateinit var browseAdapter: SearchAdapter
     //@Inject lateinit var mapper: ProjectViewMapper

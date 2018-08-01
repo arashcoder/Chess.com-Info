@@ -2,6 +2,7 @@ package com.chess.personal.my.remote
 
 
 import com.chess.personal.my.data.model.PlayerEntity
+import com.chess.personal.my.data.model.PuzzleEntity
 import com.chess.personal.my.data.repository.PlayersRemote
 import com.chess.personal.my.remote.mapper.PlayersResponseModelMapper
 import com.chess.personal.my.remote.model.SearchResultsResponseModel

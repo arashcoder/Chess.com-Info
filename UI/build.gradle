@@ -40,6 +40,7 @@ dependencies {
     implementation project(':Cache')
     implementation project(':Preference')
 
+    implementation mobileUiDependencies.chromeCustomTabs
     implementation mobileUiDependencies.javaxAnnotation
     implementation mobileUiDependencies.kotlin
     implementation mobileUiDependencies.javaxInject
@@ -49,6 +50,7 @@ dependencies {
     implementation mobileUiDependencies.androidSupportV13
     implementation mobileUiDependencies.appCompatV7
     implementation mobileUiDependencies.supportRecyclerView
+    implementation mobileUiDependencies.supportCardView
     implementation mobileUiDependencies.constraintLayout
     implementation mobileUiDependencies.supportDesign
     implementation mobileUiDependencies.timber

@@ -58,7 +58,7 @@ open class BrowsePlayersViewModel @Inject internal constructor(
                 UnbookmarkPlayer.Params.forPlayer(username))
     }
 
-    inner class PlayersSubscriber(): DisposableSingleObserver<List<String>>() {
+    inner class PlayersSubscriber: DisposableSingleObserver<List<String>>() {
         override fun onSuccess(t: List<String>) {
             liveData.postValue(Resource(ResourceState.SUCCESS, t, null
                     //t.map { mapper.mapToView(it) }, null)

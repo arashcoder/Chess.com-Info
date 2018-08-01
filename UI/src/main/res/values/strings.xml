@@ -1,3 +1,4 @@
 <resources>
     <string name="action_search">Search</string>
+    <string name="error_no_browser">No browser on device.</string>
 </resources>

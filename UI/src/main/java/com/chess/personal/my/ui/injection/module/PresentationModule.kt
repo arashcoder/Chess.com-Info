@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.chess.personal.my.presentation.BrowseBookmarkedPlayersViewModel
 import com.chess.personal.my.presentation.BrowsePlayersViewModel
+import com.chess.personal.my.presentation.HomeViewModel
 import com.chess.personal.my.ui.injection.ViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -13,6 +14,11 @@ import kotlin.reflect.KClass
 
 @Module
 abstract class PresentationModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeViewModel::class)
+    abstract fun bindHomeViewModel(viewModel: HomeViewModel): ViewModel
 
     @Binds
     @IntoMap

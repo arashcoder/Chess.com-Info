@@ -1,5 +1,6 @@
 package com.chess.personal.my.remote.service
 
+import com.chess.personal.my.remote.model.PuzzleModel
 import com.chess.personal.my.remote.model.SearchResultsResponseModel
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -14,4 +15,10 @@ interface ChessDotComService{
 
     @GET("country/{iso}/players")
     fun getAllPlayersByCountryCode(@Path("iso") countryCode: String): Single<SearchResultsResponseModel>
+
+    @GET("puzzle")
+    fun getDailyPuzzle(): Single<PuzzleModel>
+
+    @GET("puzzle/random")
+    fun getRandomPuzzle(): Single<PuzzleModel>
 }

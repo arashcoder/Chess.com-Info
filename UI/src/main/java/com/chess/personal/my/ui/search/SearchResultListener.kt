@@ -1,9 +1,7 @@
 package com.chess.personal.my.ui.search
 
 interface SearchResultListener {
-
-    fun onBookmarkedItemClicked(username: String)
-
-    fun onItemClicked(username: String)
-
+    fun onClicked(searchResult: String)
+    fun onBookmarked(name: String)
+    fun onUnbookmarked(name: String)
 }

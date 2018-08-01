@@ -1,1 +1,1 @@
-include ':Domain', ':Data', ':Remote', ':Cache', ':Presentation', ':UI'
+include ':Domain', ':Data', ':Remote', ':Cache', ':Presentation', ':UI', ':Preference'

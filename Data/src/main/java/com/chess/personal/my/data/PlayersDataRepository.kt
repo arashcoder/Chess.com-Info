@@ -42,15 +42,18 @@ class PlayersDataRepository @Inject constructor(
     }
 
     override fun bookmarkPlayer(username: String): Completable {
-        return factory.getCacheDataStore().setPlayerAsBookmarked(username)
+       return factory.getPreferenceDataStore().setPlayerAsBookmarked(username)
+        //return factory.getCacheDataStore().setPlayerAsBookmarked(username)
     }
 
     override fun unbookmarkPlayer(username: String): Completable {
-        return factory.getCacheDataStore().setPlayerAsNotBookmarked(username)
+        return factory.getPreferenceDataStore().setPlayerAsNotBookmarked(username)
+        //return factory.getCacheDataStore().setPlayerAsNotBookmarked(username)
     }
 
     override fun getBookmarkedPlayers(): Single<List<String>> {
-        return factory.getCacheDataStore().getBookmarkedPlayers()
+        return factory.getPreferenceDataStore().getBookmarkedPlayers()
+        //return factory.getCacheDataStore().getBookmarkedPlayers()
 //                .map {
 //                    it.map { mapper.mapFromEntity(it) }
 //                }

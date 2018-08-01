@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.chess.personal.my.ui.R
+import com.like.LikeButton
+import com.like.OnLikeListener
 import kotlinx.android.synthetic.main.item_search.view.*
 import java.util.ArrayList
 import javax.inject.Inject
@@ -33,17 +35,17 @@ class SearchAdapter @Inject constructor(
         when (viewType) {
             TYPE_ITEM -> {
                 val holder = SearchResultViewHolder.inflate(parent)
-//                holder.itemView.btn_fav.setOnLikeListener(object:OnLikeListener{
-//                    override fun liked(likeButton: LikeButton?) {
-//                        val position = holder.itemView.getTag(R.id.list_position) as Int
-//                        listener.onLiked(getSearchResult(position))
-//                    }
-//
-//                    override fun unLiked(likeButton: LikeButton?) {
-//                        val position = holder.itemView.getTag(R.id.list_position) as Int
-//                        listener.onDisliked(getSearchResult(position))
-//                    }
-//                })
+                holder.itemView.btn_fav.setOnLikeListener(object: OnLikeListener {
+                    override fun liked(likeButton: LikeButton?) {
+                        val position = holder.itemView.getTag(R.id.list_position) as Int
+                        listener?.onBookmarked(getSearchResult(position))
+                    }
+
+                    override fun unLiked(likeButton: LikeButton?) {
+                        val position = holder.itemView.getTag(R.id.list_position) as Int
+                        listener?.onUnbookmarked(getSearchResult(position))
+                    }
+                })
 //                holder.itemView.setOnClickListener { v ->
 //                    val position = v.getTag(R.id.list_position) as Int
 //                    val holder = v.getTag(R.id.list_view_holder) as SearchResultViewHolder

@@ -34,10 +34,11 @@ dependencies {
     def presentationDependencies = rootProject.ext.presentationDependencies
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    compile project(':Presentation')
-    compile project(':Data')
-    compile project(':Remote')
-    compile project(':Cache')
+    implementation project(':Presentation')
+    implementation project(':Data')
+    implementation project(':Remote')
+    implementation project(':Cache')
+    implementation project(':Preference')
 
     implementation mobileUiDependencies.javaxAnnotation
     implementation mobileUiDependencies.kotlin

@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+    }
+}
+
+dependencies {
+    def prefDependencies = rootProject.ext.prefDependencies
+
+    implementation project(':Data')
+
+    implementation prefDependencies.javaxAnnotation
+    implementation prefDependencies.kotlin
+    implementation prefDependencies.javaxInject
+    implementation prefDependencies.rxKotlin
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

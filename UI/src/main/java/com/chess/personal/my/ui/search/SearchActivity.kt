@@ -82,12 +82,16 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private val searchListener = object : SearchResultListener {
-        override fun onBookmarkedItemClicked(username: String) {
-            //browseViewModel.unbookmarkPlayer(username)
+        override fun onClicked(searchResult: String) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-        override fun onItemClicked(username: String) {
-           // browseViewModel.bookmarkProject(username)
+        override fun onBookmarked(username: String) {
+            browseViewModel.bookmarkPlayer(username)
+        }
+
+        override fun onUnbookmarked(username: String) {
+            browseViewModel.unbookmarkPlayer(username)
         }
 
     }

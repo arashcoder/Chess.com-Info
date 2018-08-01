@@ -43,6 +43,11 @@ open class BrowsePlayersViewModel @Inject internal constructor(
                 GetPlayers.Params.forPlayer(countryISO))
     }
 
+    fun fetchBookmarkedPlayers() {
+        liveData.postValue(Resource(ResourceState.LOADING, null, null))
+        getPlayers?.execute(PlayersSubscriber())
+    }
+
     fun bookmarkPlayer(username: String) {
         return bookmarkPlayer.execute(BookmarkPlayersSubscriber(),
                 BookmarkPlayer.Params.forPlayer(username))

@@ -1,6 +1,7 @@
 package com.chess.personal.my.ui
 
 import android.app.Activity
+import com.chess.personal.my.preference.PrefsHelper
 import com.chess.personal.my.ui.injection.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -20,6 +21,7 @@ class ChessDotComApp: android.app.Application(), HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
         setupTimber()
+        PrefsHelper.init(this)//TODO:
 
         DaggerApplicationComponent
                 .builder()

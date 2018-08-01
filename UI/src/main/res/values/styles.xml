@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/main_blue</item>
+        <item name="colorAccent">@color/yellow</item>
+        <item name="colorPrimaryDark">@color/main_blue_darker</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/main_blue_darker
+        </item>
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="dialogTheme">@style/AppDialogTheme</item>
+        <item name="alertDialogTheme">@style/AppDialogTheme</item>
+    </style>
+
+    <style name="Activity" parent="AppTheme" />
+
+    <!-- Widget styles -->
+    <style name="AppDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/yellow</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Activity.Home">
+        <!--Check v21 for the good bits-->
+    </style>
+
+    <style name="Activity.Search">
+
+    </style>
+
+</resources>

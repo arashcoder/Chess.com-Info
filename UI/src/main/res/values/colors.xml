@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="main_blue">#1A232E</color>
+    <color name="main_blue_darker">#010A15</color>
+    <color name="main_blue_60">#991A232E</color>
+    <color name="red">#DF461B</color>
+    <color name="orange">#FB6C17</color>
+    <color name="yellow">#FAA11A</color>
+    <color name="window_background">#303030</color>
+    <color name="scrim">#99323232</color>
+
+    <integer-array name="cool_colors">
+        <item>@color/red</item>
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
+    </integer-array>
+</resources>

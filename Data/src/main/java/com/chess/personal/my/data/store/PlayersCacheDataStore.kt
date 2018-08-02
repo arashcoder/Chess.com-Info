@@ -10,6 +10,9 @@ import javax.inject.Inject
 open class PlayersCacheDataStore @Inject constructor(
         private val playersCache: PlayersCache)
     : PlayersDataStore {
+    override fun getPlayer(username: String): Single<PlayerEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getPlayers(countryISO: String): Single<List<String>> {
         return playersCache.getPlayers(countryISO)

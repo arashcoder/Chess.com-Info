@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.chess.personal.my.presentation.BrowseBookmarkedPlayersViewModel
 import com.chess.personal.my.presentation.BrowsePlayersViewModel
 import com.chess.personal.my.presentation.HomeViewModel
+import com.chess.personal.my.presentation.PlayerProfileViewModel
 import com.chess.personal.my.ui.injection.ViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -30,6 +31,12 @@ abstract class PresentationModule {
     @ViewModelKey(BrowseBookmarkedPlayersViewModel::class)
     abstract fun bindBrowseBookmarkedProjectsViewModel(
             viewModel: BrowseBookmarkedPlayersViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PlayerProfileViewModel::class)
+    abstract fun bindPlayerProfileViewModel(
+            viewModel: PlayerProfileViewModel): ViewModel
 
 
     @Binds

@@ -9,4 +9,5 @@ interface PlayersRepository {
     fun bookmarkPlayer(username: String): Completable
     fun unbookmarkPlayer(username: String): Completable
     fun getBookmarkedPlayers(): Single<List<String>>
+    fun getPlayer(username: String): Single<Player>
 }

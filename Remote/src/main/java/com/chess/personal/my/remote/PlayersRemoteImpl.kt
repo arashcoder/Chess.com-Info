@@ -15,6 +15,9 @@ class PlayersRemoteImpl @Inject constructor(
         private val service: ChessDotComService,
         private val mapper: PlayersResponseModelMapper)
     : PlayersRemote {
+    override fun getPlayer(username: String): Single<PlayerEntity> {
+        return service.getPlayer(username).map { mapper.mapFromModel(it) }
+    }
 
     override fun getPlayers(countryISO: String): Single<List<String>> {
         return service.getAllPlayersByCountryCode(countryISO)

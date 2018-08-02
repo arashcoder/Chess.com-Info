@@ -10,6 +10,9 @@ import javax.inject.Inject
 open class PlayersRemoteDataStore @Inject constructor(
         private val playersRemote: PlayersRemote)
     : PlayersDataStore {
+    override fun getPlayer(username: String): Single<PlayerEntity> {
+        return playersRemote.getPlayer(username)
+    }
 
     override fun getPlayers(countryISO: String): Single<List<String>> {
         return playersRemote.getPlayers(countryISO)

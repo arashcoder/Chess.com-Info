@@ -8,11 +8,13 @@
         android:name=".ChessDotComApp"
         android:allowBackup="true"
         android:theme="@style/Activity.Search">
-        <activity android:name=".search.SearchActivity">
+        <activity android:name=".search.SearchActivity"></activity>
+        <activity
+            android:name=".search.HomeActivity"
+            android:theme="@style/Activity.Home">
 
         </activity>
-        <activity android:name=".search.HomeActivity"
-            android:theme="@style/Activity.Home">
+        <activity android:name=".player.PlayerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,14 @@
 <resources>
     <string name="action_search">Search</string>
     <string name="error_no_browser">No browser on device.</string>
+
+    <!-- Tabs -->
+    <string name="title_player_profile">Profile</string>
+    <string name="title_player_stats">Stats</string>
+    <string name="title_club_profile">Profile</string>
+    <string name="title_club_members">Members</string>
+    <string-array name="player_tabs">
+        <item>@string/title_player_profile</item>
+        <item>@string/title_player_stats</item>
+    </string-array>
 </resources>

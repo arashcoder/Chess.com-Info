@@ -18,4 +18,6 @@ interface PlayersDataStore {
 
     fun setPlayerAsNotBookmarked(username: String): Completable
 
+    fun getPlayer(username: String): Single<PlayerEntity>
+
 }

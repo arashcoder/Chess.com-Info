@@ -18,6 +18,11 @@ class PlayersDataRepository @Inject constructor(
         private val factory: PlayersDataStoreFactory)
     : PlayersRepository {
 
+    override fun getPlayer(username: String): Single<Player> {
+       return factory.getRemoteDataStore().getPlayer(username)
+               .map { mapper.mapFromEntity(it) }
+    }
+
 
     override fun getPlayers(countryISO: String): Single<List<String>> {
 //        return Single.zip(cache.arePlayersCached(),

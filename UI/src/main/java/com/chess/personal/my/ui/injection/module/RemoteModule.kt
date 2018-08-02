@@ -28,4 +28,5 @@ abstract class RemoteModule {
 
     @Binds
     abstract fun bindPuzzleRemote(puzzleRemote: PuzzleRemoteImpl): PuzzleRemote
+
 }

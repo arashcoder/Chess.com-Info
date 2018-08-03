@@ -2,10 +2,7 @@ package com.chess.personal.my.ui.injection.module
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.chess.personal.my.presentation.BrowseBookmarkedPlayersViewModel
-import com.chess.personal.my.presentation.BrowsePlayersViewModel
-import com.chess.personal.my.presentation.HomeViewModel
-import com.chess.personal.my.presentation.PlayerProfileViewModel
+import com.chess.personal.my.presentation.*
 import com.chess.personal.my.ui.injection.ViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -23,8 +20,8 @@ abstract class PresentationModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(BrowsePlayersViewModel::class)
-    abstract fun bindBrowseProjectsViewModel(viewModel: BrowsePlayersViewModel): ViewModel
+    @ViewModelKey(SearchViewModel::class)
+    abstract fun bindBSearchViewModel(viewModel: SearchViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -37,6 +34,24 @@ abstract class PresentationModule {
     @ViewModelKey(PlayerProfileViewModel::class)
     abstract fun bindPlayerProfileViewModel(
             viewModel: PlayerProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PlayerAllGamesViewModel::class)
+    abstract fun bindPlayerAllGamesViewModel(
+            viewModel: PlayerAllGamesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PlayerMonthlyGamesViewModel::class)
+    abstract fun bindPlayerMonthlyGamesViewModel(
+            viewModel: PlayerMonthlyGamesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ClubProfileViewModel::class)
+    abstract fun bindClubProfileViewModel(
+            viewModel: ClubProfileViewModel): ViewModel
 
 
     @Binds

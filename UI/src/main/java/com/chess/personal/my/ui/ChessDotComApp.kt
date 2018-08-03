@@ -1,6 +1,7 @@
 package com.chess.personal.my.ui
 
 import android.app.Activity
+import android.support.v4.app.Fragment
 import com.chess.personal.my.preference.PrefsHelper
 import com.chess.personal.my.ui.injection.DaggerApplicationComponent
 import com.squareup.picasso.OkHttp3Downloader
@@ -8,12 +9,19 @@ import com.squareup.picasso.Picasso
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import dagger.android.support.HasSupportFragmentInjector
 import okhttp3.OkHttpClient
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ChessDotComApp: android.app.Application(), HasActivityInjector {
+class ChessDotComApp: android.app.Application(), HasActivityInjector, HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var androidFragmentInjector: DispatchingAndroidInjector<Fragment>
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return androidFragmentInjector
+    }
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Activity>

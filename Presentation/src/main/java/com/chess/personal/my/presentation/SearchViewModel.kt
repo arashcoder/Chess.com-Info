@@ -6,20 +6,19 @@ import android.arch.lifecycle.ViewModel
 import com.chess.personal.my.domain.interactor.bookmark.BookmarkPlayer
 import com.chess.personal.my.domain.interactor.bookmark.UnbookmarkPlayer
 import com.chess.personal.my.domain.interactor.browse.GetPlayers
-import com.chess.personal.my.domain.model.Player
+import com.chess.personal.my.domain.interactor.club.GetClubs
 import com.chess.personal.my.presentation.mapper.PlayerViewMapper
-import com.chess.personal.my.presentation.model.PlayerView
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
 import io.reactivex.observers.DisposableCompletableObserver
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
-open class BrowsePlayersViewModel @Inject internal constructor(
+open class SearchViewModel @Inject internal constructor(
         private val getPlayers: GetPlayers?,
         private val bookmarkPlayer: BookmarkPlayer,
         private val unBookmarkPlayer: UnbookmarkPlayer,
+        private val getClubs: GetClubs,
         private val mapper: PlayerViewMapper): ViewModel() {
 
     private val liveData: MutableLiveData<Resource<List<String>>> = MutableLiveData()
@@ -30,22 +29,29 @@ open class BrowsePlayersViewModel @Inject internal constructor(
 
     override fun onCleared() {
         getPlayers?.dispose()
+        getClubs?.dispose()
         super.onCleared()
     }
 
-    fun getPlayers(): LiveData<Resource<List<String>>> {
+    fun getLiveData(): LiveData<Resource<List<String>>> {
         return liveData
     }
 
     fun fetchPlayers(countryISO: String) {
         liveData.postValue(Resource(ResourceState.LOADING, null, null))
-        getPlayers?.execute(PlayersSubscriber(),
+        getPlayers?.execute(SerachSubscriber(),
                 GetPlayers.Params.forPlayer(countryISO))
+    }
+
+    fun fetchClubs(countryISO: String) {
+        liveData.postValue(Resource(ResourceState.LOADING, null, null))
+        getClubs?.execute(SerachSubscriber(),
+                GetClubs.Params.forClub(countryISO))
     }
 
     fun fetchBookmarkedPlayers() {
         liveData.postValue(Resource(ResourceState.LOADING, null, null))
-        getPlayers?.execute(PlayersSubscriber())
+        getPlayers?.execute(SerachSubscriber())
     }
 
     fun bookmarkPlayer(username: String) {
@@ -58,7 +64,7 @@ open class BrowsePlayersViewModel @Inject internal constructor(
                 UnbookmarkPlayer.Params.forPlayer(username))
     }
 
-    inner class PlayersSubscriber: DisposableSingleObserver<List<String>>() {
+    inner class SerachSubscriber: DisposableSingleObserver<List<String>>() {
         override fun onSuccess(t: List<String>) {
             liveData.postValue(Resource(ResourceState.SUCCESS, t, null
                     //t.map { mapper.mapToView(it) }, null)

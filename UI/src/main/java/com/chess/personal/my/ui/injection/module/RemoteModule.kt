@@ -1,7 +1,9 @@
 package com.chess.personal.my.ui.injection.module
 
+import com.chess.personal.my.data.repository.ClubRemote
 import com.chess.personal.my.data.repository.PlayersRemote
 import com.chess.personal.my.data.repository.PuzzleRemote
+import com.chess.personal.my.remote.ClubRemoteImpl
 import com.chess.personal.my.remote.PlayersRemoteImpl
 import com.chess.personal.my.remote.PuzzleRemoteImpl
 import com.chess.personal.my.remote.service.ChessDotComService
@@ -25,6 +27,9 @@ abstract class RemoteModule {
 
     @Binds
     abstract fun bindPlayersRemote(playersRemote: PlayersRemoteImpl): PlayersRemote
+
+    @Binds
+    abstract fun bindClubRemote(clubRemote: ClubRemoteImpl): ClubRemote
 
     @Binds
     abstract fun bindPuzzleRemote(puzzleRemote: PuzzleRemoteImpl): PuzzleRemote

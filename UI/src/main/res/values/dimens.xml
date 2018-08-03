@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="letterIconSize">40dp</dimen>
     <dimen name="likeIconSize">25dp</dimen>
+    <dimen name="game_list_image_size">50dp</dimen>
 </resources>

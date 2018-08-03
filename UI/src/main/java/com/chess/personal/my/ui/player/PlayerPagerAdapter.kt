@@ -12,18 +12,18 @@ class PlayerPagerAdapter(context: PlayerActivity, fm: FragmentManager) : Fragmen
     private val mFragmentManager: FragmentManager? = null
     var gameFragment: Fragment? = null
 
-//    private inner class GamePageListener: GamesListFragmentListener{
-//        override fun onGoToNextFragment(year: String, month: String) {
-//            mFragmentManager?.beginTransaction()?.remove(gameFragment)
-//                    ?.commitNow()
-//            if (gameFragment is PlayerAllGamesListFragment){
-//                gameFragment = PlayerMonthlyGamesFragment.newInstance(player.username, month, year, GamePageListener())
-//            }else{
-//                gameFragment = PlayerAllGamesListFragment.newInstance(player.username, GamePageListener())
-//            }
-//            notifyDataSetChanged()
-//        }
-//    }
+    private inner class GamePageListener: GamesListFragmentListener{
+        override fun onGoToNextFragment(year: String, month: String) {
+            mFragmentManager?.beginTransaction()?.remove(gameFragment)
+                    ?.commitNow()
+            if (gameFragment is PlayerAllGamesFragment){
+                gameFragment = PlayerMonthlyGamesFragment.newInstance(player.username, month, year, GamePageListener())
+            }else{
+                gameFragment = PlayerAllGamesFragment.newInstance(player.username, GamePageListener())
+            }
+            notifyDataSetChanged()
+        }
+    }
 
 
     companion object {
@@ -47,25 +47,25 @@ class PlayerPagerAdapter(context: PlayerActivity, fm: FragmentManager) : Fragmen
             PROFILE_POS -> return PlayerProfileFragment.newInstance()
         //STATS_POS -> return PlayerProfileFragment.newInstance()
             GAMES_POS -> {
-//                if (gameFragment == null) {
-//                    gameFragment = PlayerAllGamesListFragment.newInstance(player.username, GamePageListener())
-//                }
-//                return gameFragment
-                return PlayerProfileFragment.newInstance()
+                if (gameFragment == null) {
+                    gameFragment = PlayerAllGamesFragment.newInstance(player.username, GamePageListener())
+                }
+                return gameFragment
+
             }
         }
         throw IllegalStateException("Position exceeded on view pager")
     }
 
 
-//    override fun getItemPosition(`object`: Any): Int {
-//        if (`object` is PlayerAllGamesListFragment && gameFragment is PlayerMonthlyGamesFragment) {
-//            return PagerAdapter.POSITION_NONE
-//        }
-//        return if (`object` is PlayerMonthlyGamesFragment && gameFragment is PlayerAllGamesListFragment) {
-//            PagerAdapter.POSITION_NONE
-//        } else PagerAdapter.POSITION_UNCHANGED
-//    }
+    override fun getItemPosition(`object`: Any): Int {
+        if (`object` is PlayerAllGamesFragment && gameFragment is PlayerMonthlyGamesFragment) {
+            return PagerAdapter.POSITION_NONE
+        }
+        return if (`object` is PlayerMonthlyGamesFragment && gameFragment is PlayerAllGamesFragment) {
+            PagerAdapter.POSITION_NONE
+        } else PagerAdapter.POSITION_UNCHANGED
+    }
 
 }
 

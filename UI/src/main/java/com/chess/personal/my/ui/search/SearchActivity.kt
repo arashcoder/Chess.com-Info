@@ -2,11 +2,10 @@ package com.chess.personal.my.ui.search
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.chess.personal.my.presentation.BrowsePlayersViewModel
+import com.chess.personal.my.presentation.SearchViewModel
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
 import com.chess.personal.my.ui.R
@@ -21,7 +20,7 @@ class SearchActivity : BaseActivity() {
     //@Inject lateinit var mapper: ProjectViewMapper
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var browseViewModel: BrowsePlayersViewModel
+    private lateinit var browseViewModel: SearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +29,14 @@ class SearchActivity : BaseActivity() {
         AndroidInjection.inject(this)
 
         browseViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(BrowsePlayersViewModel::class.java)
+                .get(SearchViewModel::class.java)
 
         setupBrowseRecycler()
     }
 
     override fun onStart() {
         super.onStart()
-        browseViewModel.getPlayers().observe(this,
+        browseViewModel.getLiveData().observe(this,
                 Observer<Resource<List<String>>> {
                     it?.let {
                         handleDataState(it)

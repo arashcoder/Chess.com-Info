@@ -45,6 +45,9 @@ class PlayerActivity : BaseActivity() {
         playerProfileViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(PlayerProfileViewModel::class.java)
 
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+
         setupPlayer()
     }
 
@@ -89,5 +92,18 @@ class PlayerActivity : BaseActivity() {
         adapter = PlayerPagerAdapter(this, supportFragmentManager)
         pager.adapter = adapter
         tabs.setupWithViewPager(pager)
+    }
+
+    override fun onBackPressed() {
+        if (pager.currentItem == 1) {
+            if (adapter?.getItem(1) is PlayerMonthlyGamesFragment) {
+                (adapter?.getItem(1) as PlayerMonthlyGamesFragment).backPressed()
+            } else if (adapter?.getItem(1) is PlayerAllGamesFragment) {
+                finish()
+            }
+        }
+        else {
+            super.onBackPressed()
+        }
     }
 }

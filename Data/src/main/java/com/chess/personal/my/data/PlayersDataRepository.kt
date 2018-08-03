@@ -1,9 +1,11 @@
 package com.chess.personal.my.data
 
+import com.chess.personal.my.data.mapper.GameMapper
 import com.chess.personal.my.data.mapper.PlayerMapper
 import com.chess.personal.my.data.repository.PlayersCache
 import com.chess.personal.my.data.repository.PlayersDataStore
 import com.chess.personal.my.data.store.PlayersDataStoreFactory
+import com.chess.personal.my.domain.model.Game
 import com.chess.personal.my.domain.model.Player
 import com.chess.personal.my.domain.repository.PlayersRepository
 import io.reactivex.Completable
@@ -14,9 +16,18 @@ import javax.inject.Inject
 
 class PlayersDataRepository @Inject constructor(
         private val mapper: PlayerMapper,
+        private val gameMapper: GameMapper,
         private val cache: PlayersCache,
         private val factory: PlayersDataStoreFactory)
     : PlayersRepository {
+    override fun getMonthlyGames(username: String, year: String, month: String): Single<List<Game>> {
+        return factory.getRemoteDataStore().getMonthlyGames(username, year, month)
+                .map { it.map { gameMapper.mapFromEntity(it) }  }
+    }
+
+    override fun getAllGames(username: String): Single<List<String>> {
+        return factory.getRemoteDataStore().getAllGames(username )
+    }
 
     override fun getPlayer(username: String): Single<Player> {
        return factory.getRemoteDataStore().getPlayer(username)

@@ -91,6 +91,7 @@ class PlayerMonthlyGamesFragment : BaseFragment() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = listener
         browseAdapter.context = baseActivity
+        browseAdapter.username = username
         games_list.layoutManager = LinearLayoutManager(baseActivity)
         games_list.adapter = browseAdapter
     }

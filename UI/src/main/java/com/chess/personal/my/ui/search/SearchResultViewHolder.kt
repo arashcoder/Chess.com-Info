@@ -22,13 +22,13 @@ class SearchResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
 
-    fun bind(searchResult: String, color: Int, isPlayer: Boolean) {
+    fun bind(searchResult: String, color: Int, isPlayer: Boolean, favorites: List<String>) {
         rootView.item_name.text = searchResult
         rootView.item_letter.letter = searchResult.substring(0, 1)
         rootView.item_letter.letterColor = Color.WHITE
         rootView.item_letter.shapeColor = color
 
-        //val favs = if(isPlayer) Prefs.getFavoritePlayers() else Prefs.getFavoriteClubs()
-        //rootView.btn_fav.isLiked = favs.any { it == searchResult }
+        // favs = if(isPlayer) Prefs.getFavoritePlayers() else Prefs.getFavoriteClubs()
+        rootView.btn_fav.isLiked = favorites.any { it == searchResult }
     }
 }

@@ -60,6 +60,7 @@ dependencies {
     implementation mobileUiDependencies.daggerSupport
     implementation mobileUiDependencies.likeButton
     implementation mobileUiDependencies.materialLetter
+    implementation mobileUiDependencies.flagKit
 
     implementation presentationDependencies.archRuntime
     implementation presentationDependencies.archExtensions

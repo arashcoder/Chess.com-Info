@@ -5,6 +5,8 @@ import com.chess.personal.my.domain.executer.PostExecutionThread
 import com.chess.personal.my.ui.UiThread
 import com.chess.personal.my.ui.player.PlayerActivity
 import com.chess.personal.my.ui.player.PlayerAllGamesFragment
+import com.chess.personal.my.ui.player.PlayerHomeActivity
+import com.chess.personal.my.ui.player.PlayerMonthlyGamesFragment
 import com.chess.personal.my.ui.search.HomeActivity
 import com.chess.personal.my.ui.search.SearchActivity
 import dagger.Binds
@@ -27,6 +29,12 @@ abstract class UiModule {
     abstract fun contributesPlayerProfileActivity(): PlayerActivity
 
     @ContributesAndroidInjector
+    abstract fun contributesPlayerHomeActivity(): PlayerHomeActivity
+
+    @ContributesAndroidInjector
     abstract fun contributesPlayerAllGamesFragment(): PlayerAllGamesFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributesPlayerMonthlyGamesFragment(): PlayerMonthlyGamesFragment
 
 }

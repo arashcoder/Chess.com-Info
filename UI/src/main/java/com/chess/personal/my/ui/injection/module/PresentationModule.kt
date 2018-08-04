@@ -53,6 +53,12 @@ abstract class PresentationModule {
     abstract fun bindClubProfileViewModel(
             viewModel: ClubProfileViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ClubMembersViewModel::class)
+    abstract fun bindClubMembersViewModel(
+            viewModel: ClubMembersViewModel): ViewModel
+
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

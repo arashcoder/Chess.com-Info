@@ -48,17 +48,19 @@ class PlayerActivity : BaseActivity() {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        setupPlayer()
+        val username = intent.getStringExtra(EXTRA_USERNAME)
+
+        setupPlayer(username)
     }
 
-    private fun setupPlayer() {
+    private fun setupPlayer(username: String) {
         playerProfileViewModel.getPlayer().observe(this,
                 Observer<Resource<PlayerView>> {
                     it?.let {
                         handleDataState(it)
                     }
                 })
-        playerProfileViewModel.fetchPlayerProfile("erik")
+        playerProfileViewModel.fetchPlayerProfile(username)
     }
 
     private fun handleDataState(resource: Resource<PlayerView>) {

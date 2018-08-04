@@ -27,6 +27,7 @@ ext {
     materialLetterVersion = '0.2.3'
     likeButtonVersion = '0.2.3'
     chromeCustomTabsVersion = '0.1.6'
+    flagKitVersion = '1.0'
 
     //Testing
     jUnitVersion = '4.12'
@@ -172,7 +173,8 @@ ext {
             roomRxJava:         "android.arch.persistence.room:rxjava2:${archCompVersion}",
             materialLetter:     "com.github.ivbaranov:materiallettericon:${materialLetterVersion}",
             likeButton:         "com.github.jd-alexander:LikeButton:${likeButtonVersion}",
-            chromeCustomTabs:   "com.novoda:simple-chrome-custom-tabs:${chromeCustomTabsVersion}"
+            chromeCustomTabs:   "com.novoda:simple-chrome-custom-tabs:${chromeCustomTabsVersion}",
+            flagKit:            "com.jwang123.flagkit:flagkit:${flagKitVersion}"
     ]
 
     mobileUiTestDependencies = [

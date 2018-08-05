@@ -25,9 +25,9 @@ abstract class PresentationModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(BrowseBookmarkedPlayersViewModel::class)
+    @ViewModelKey(PlayerHomeViewModel::class)
     abstract fun bindBrowseBookmarkedProjectsViewModel(
-            viewModel: BrowseBookmarkedPlayersViewModel): ViewModel
+            viewModel: PlayerHomeViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -58,6 +58,12 @@ abstract class PresentationModule {
     @ViewModelKey(ClubMembersViewModel::class)
     abstract fun bindClubMembersViewModel(
             viewModel: ClubMembersViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ClubHomeViewModel::class)
+    abstract fun bindClubHomeViewModel(
+            viewModel: ClubHomeViewModel): ViewModel
 
 
     @Binds

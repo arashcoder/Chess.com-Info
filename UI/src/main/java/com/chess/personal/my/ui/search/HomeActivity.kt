@@ -2,6 +2,8 @@ package com.chess.personal.my.ui.search
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -28,6 +30,12 @@ class HomeActivity : BaseActivity() {
     lateinit var viewModelFactory: ViewModelFactory
     @Inject lateinit var mapper: PuzzleViewMapper
     private lateinit var homeViewModel: HomeViewModel
+
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, HomeActivity::class.java)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

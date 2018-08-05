@@ -7,6 +7,7 @@ import com.chess.personal.my.domain.interactor.bookmark.BookmarkPlayer
 import com.chess.personal.my.domain.interactor.bookmark.GetBookmarkedPlayers
 import com.chess.personal.my.domain.interactor.bookmark.UnbookmarkPlayer
 import com.chess.personal.my.domain.interactor.browse.GetPlayers
+import com.chess.personal.my.domain.interactor.club.GetBookmarkedClubs
 import com.chess.personal.my.domain.interactor.club.GetClubs
 import com.chess.personal.my.presentation.mapper.PlayerViewMapper
 import com.chess.personal.my.presentation.state.Resource
@@ -22,6 +23,7 @@ open class SearchViewModel @Inject internal constructor(
         private val unBookmarkPlayer: UnbookmarkPlayer,
         private val getClubs: GetClubs,
         private val getBookmarkedPlayers: GetBookmarkedPlayers,
+        private val getBookmarkedClubs: GetBookmarkedClubs,
         private val mapper: PlayerViewMapper): ViewModel() {
 
     private val liveData: MutableLiveData<Resource<List<String>>> = MutableLiveData()
@@ -57,6 +59,10 @@ open class SearchViewModel @Inject internal constructor(
 
     fun fetchBookmarkedPlayers(): Single<List<String>> {
         return getBookmarkedPlayers.buildUseCaseSingle()
+    }
+
+    fun fetchBookmarkedClubs(): Single<List<String>> {
+        return getBookmarkedClubs.buildUseCaseSingle()
     }
 
     fun bookmarkPlayer(username: String) {

@@ -11,10 +11,8 @@
         <activity android:name=".search.SearchActivity" />
         <activity
             android:name=".search.HomeActivity"
-            android:theme="@style/Activity.Home"></activity>
-        <activity android:name=".player.PlayerActivity">
-
-        </activity>
+            android:theme="@style/Activity.Home" />
+        <activity android:name=".player.PlayerActivity" />
         <activity android:name=".player.PlayerHomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".club.ClubHomeActivity" />
+        <activity android:name=".club.ClubActivity"></activity>
     </application>
 
 </manifest>

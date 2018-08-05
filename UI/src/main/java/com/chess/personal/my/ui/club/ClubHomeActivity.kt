@@ -1,4 +1,4 @@
-package com.chess.personal.my.ui.player
+package com.chess.personal.my.ui.club
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -9,19 +9,20 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.View
-import com.chess.personal.my.presentation.PlayerHomeViewModel
+import com.chess.personal.my.presentation.ClubHomeViewModel
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
 import com.chess.personal.my.ui.R
 import com.chess.personal.my.ui.injection.ViewModelFactory
+import com.chess.personal.my.ui.search.BaseActivity
 import com.chess.personal.my.ui.search.SearchAdapter
 import com.chess.personal.my.ui.search.SearchResultListener
 import com.chess.personal.my.ui.util.Navigator
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_player_home.*
+import kotlinx.android.synthetic.main.activity_club_home.*
 import javax.inject.Inject
 
-class PlayerHomeActivity : AppCompatActivity() {
+class ClubHomeActivity : BaseActivity() {
 
     @Inject
     lateinit var browseAdapter: SearchAdapter
@@ -29,18 +30,18 @@ class PlayerHomeActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var browseViewModel: PlayerHomeViewModel
+    private lateinit var browseViewModel: ClubHomeViewModel
 
     companion object {
         fun newIntent(context: Context): Intent {
-            return Intent(context, PlayerHomeActivity::class.java)
+            return Intent(context, ClubHomeActivity::class.java)
         }
     }
 
     val onMenuItemClickListener = Toolbar.OnMenuItemClickListener { item ->
         when (item.itemId) {
             R.id.action_search -> {
-                Navigator.navigateToSearch(this@PlayerHomeActivity, true)
+                Navigator.navigateToSearch(this@ClubHomeActivity, false)
                 return@OnMenuItemClickListener true
             }
         }
@@ -49,37 +50,35 @@ class PlayerHomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player_home)
+        setContentView(R.layout.activity_club_home)
 
         AndroidInjection.inject(this)
 
         browseViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(PlayerHomeViewModel::class.java)
+                .get(ClubHomeViewModel::class.java)
 
-        toolbar.setTitle(R.string.players)
+        toolbar.setTitle(R.string.clubs)
         toolbar.inflateMenu(R.menu.search)
         toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
-
-
 
         setupBrowseRecycler()
     }
 
     override fun onStart() {
         super.onStart()
-        browseViewModel.getPlayers().observe(this,
+        browseViewModel.getClubs().observe(this,
                 Observer<Resource<List<String>>> {
                     it?.let {
                         handleDataState(it)
                     }
                 })
-        browseViewModel.fetchBookmarkedPlayers()
+        browseViewModel.fetchBookmarkedClubs()
     }
 
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        browseAdapter.favorites = browseViewModel.fetchBookmarkedPlayersSingle().blockingGet()
+        browseAdapter.favorites = browseViewModel.fetchBookmarkedClubsSingle().blockingGet()
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = browseAdapter
     }
@@ -114,15 +113,15 @@ class PlayerHomeActivity : AppCompatActivity() {
 
     private val searchListener = object : SearchResultListener {
         override fun onClicked(searchResult: String) {
-            Navigator.navigateToPlayerProfile(this@PlayerHomeActivity, searchResult)
+            Navigator.navigateToClubProfile(this@ClubHomeActivity, searchResult)
         }
 
-        override fun onBookmarked(username: String) {
-            browseViewModel.bookmarkPlayer(username)
+        override fun onBookmarked(clubName: String) {
+            browseViewModel.bookmarkClub(clubName)
         }
 
-        override fun onUnbookmarked(username: String) {
-            browseViewModel.unbookmarkPlayer(username)
+        override fun onUnbookmarked(clubName: String) {
+            browseViewModel.unbookmarkClub(clubName)
         }
 
     }

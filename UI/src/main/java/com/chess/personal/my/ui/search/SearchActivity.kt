@@ -122,7 +122,8 @@ class SearchActivity : BaseActivity() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        browseAdapter.favorites = browseViewModel.fetchBookmarkedPlayers().blockingGet() //TODO:add club favorites
+        browseAdapter.favorites = if(isPlayerSearch) browseViewModel.fetchBookmarkedPlayers().blockingGet()
+                            else browseViewModel.fetchBookmarkedClubs().blockingGet()
         recycler_search.layoutManager = LinearLayoutManager(this)
         recycler_search.adapter = browseAdapter
     }

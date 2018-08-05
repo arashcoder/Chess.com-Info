@@ -14,7 +14,7 @@ import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
-class BrowseBookmarkedPlayersViewModel @Inject constructor(
+class PlayerHomeViewModel @Inject constructor(
         private val getBookmarkedPlayers: GetBookmarkedPlayers,
         private val bookmarkPlayer: BookmarkPlayer,
         private val unBookmarkPlayer: UnbookmarkPlayer,

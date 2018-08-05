@@ -52,12 +52,12 @@ class PlayerAllGamesFragment : BaseFragment() {
         }
     }
 
-    var username: String? = ""
+    var username: String = ""
     var navListener: GamesListFragmentListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        username = arguments?.getString(EXTRA_USERNAME)
+        username = arguments?.getString(EXTRA_USERNAME)!!
     }
 
 
@@ -89,7 +89,7 @@ class PlayerAllGamesFragment : BaseFragment() {
 //                val username = parts[size-4]
 //                val year = parts[size-2]
 //                val month = parts[size-1]
-//                Navigator.navigateToUrl(baseActivity, "${ChessService.API_ROOT_URL}player/$username/games/$year/$month/pgn" )
+//                Navigator.navigateToUrl(baseActivity, "${ChessService.API_ROOT_URL}club/$username/games/$year/$month/pgn" )
 //            }
 //
 //            override fun onClicked(monthlyGamesUrl: String) {
@@ -130,7 +130,7 @@ class PlayerAllGamesFragment : BaseFragment() {
                         handleDataState(it)
                     }
                 })
-        browseViewModel.fetchAllGames("erik")
+        browseViewModel.fetchAllGames(username)
     }
 
     private fun handleDataState(resource: Resource<List<String>>) {
@@ -168,7 +168,7 @@ class PlayerAllGamesFragment : BaseFragment() {
             val username = parts[size-4]
             val year = parts[size-2]
             val month = parts[size-1]
-            Navigator.navigateToUrl(baseActivity, "https://api.chess.com/pub/player/$username/games/$year/$month/pgn" )
+            Navigator.navigateToUrl(baseActivity, "https://api.chess.com/pub/club/$username/games/$year/$month/pgn" )
         }
 
         override fun onClicked(monthlyGameUrl: String) {

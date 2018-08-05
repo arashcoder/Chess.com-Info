@@ -6,6 +6,7 @@ import com.chess.personal.my.data.store.ClubDataStoreFactory
 import com.chess.personal.my.domain.model.Club
 import com.chess.personal.my.domain.model.ClubMember
 import com.chess.personal.my.domain.repository.ClubRepository
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -14,6 +15,19 @@ class ClubDataRepository @Inject constructor(
         private val mapper: ClubMapper,
         private val memberMapper: ClubMemberMapper)
     : ClubRepository {
+
+    override fun getBookmarkedClubs(): Single<List<String>> {
+        return factory.getDataStore().getBookmarkedClubs()
+    }
+
+    override fun bookmarkClub(clubName: String): Completable {
+        return factory.getDataStore().setClubAsBookmarked(clubName)
+    }
+
+    override fun unbookmarkClub(clubName: String): Completable {
+        return factory.getDataStore().setClubAsNotBookmarked(clubName)
+    }
+
     override fun getClubMembers(clubName: String): Single<List<ClubMember>> {
         return factory.getDataStore().getClubMembers(clubName)
                 .map { it.map { memberMapper.mapFromEntity(it) } }

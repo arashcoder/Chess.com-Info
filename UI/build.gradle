@@ -16,7 +16,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -33,7 +33,6 @@ dependencies {
     def mobileUiTestDependencies = rootProject.ext.mobileUiTestDependencies
     def presentationDependencies = rootProject.ext.presentationDependencies
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation project(':Presentation')
     implementation project(':Data')
     implementation project(':Remote')
@@ -65,7 +64,6 @@ dependencies {
     implementation presentationDependencies.archRuntime
     implementation presentationDependencies.archExtensions
     implementation mobileUiDependencies.roomRxJava
-    implementation 'com.android.support:support-v4:27.1.1'
     kapt presentationDependencies.archCompiler
 
     testImplementation mobileUiTestDependencies.kotlinJUnit

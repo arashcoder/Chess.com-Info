@@ -1,5 +1,6 @@
 package com.chess.personal.my.data
 
+import com.chess.personal.my.data.mapper.GameMapper
 import com.chess.personal.my.data.mapper.PlayerMapper
 import com.chess.personal.my.data.model.PlayerEntity
 import com.chess.personal.my.data.repository.PlayersCache
@@ -22,15 +23,17 @@ import org.junit.runners.JUnit4
 class PlayersDataRepositoryTest {
 
     private val mapper = mock<PlayerMapper>()
+    private val gameMapper = mock<GameMapper>()
     private val factory = mock<PlayersDataStoreFactory>()
     private val store = mock<PlayersDataStore>()
     private val cache = mock<PlayersCache>()
-    private val repository = PlayersDataRepository(mapper, cache, factory)
+    private val repository = PlayersDataRepository(mapper=mapper, cache=cache, factory=factory, gameMapper=gameMapper)
 
     @Before
     fun setup() {
         stubFactoryGetDataStore()
         stubFactoryGetCacheDataStore()
+        stubFactoryGetPreferenceDataStore()
         stubIsCacheExpired(Single.just(false))
         stubArePlayersCached(Single.just(false))
         stubSavePlayers(Completable.complete())
@@ -134,6 +137,11 @@ class PlayersDataRepositoryTest {
 
     private fun stubFactoryGetCacheDataStore() {
         whenever(factory.getCacheDataStore())
+                .thenReturn(store)
+    }
+
+    private fun stubFactoryGetPreferenceDataStore() {
+        whenever(factory.getPreferenceDataStore())
                 .thenReturn(store)
     }
 

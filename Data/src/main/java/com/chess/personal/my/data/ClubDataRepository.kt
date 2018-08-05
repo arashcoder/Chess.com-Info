@@ -17,15 +17,15 @@ class ClubDataRepository @Inject constructor(
     : ClubRepository {
 
     override fun getBookmarkedClubs(): Single<List<String>> {
-        return factory.getDataStore().getBookmarkedClubs()
+        return factory.getPreferenceDataStore().getBookmarkedClubs()
     }
 
     override fun bookmarkClub(clubName: String): Completable {
-        return factory.getDataStore().setClubAsBookmarked(clubName)
+        return factory.getPreferenceDataStore().setClubAsBookmarked(clubName)
     }
 
     override fun unbookmarkClub(clubName: String): Completable {
-        return factory.getDataStore().setClubAsNotBookmarked(clubName)
+        return factory.getPreferenceDataStore().setClubAsNotBookmarked(clubName)
     }
 
     override fun getClubMembers(clubName: String): Single<List<ClubMember>> {

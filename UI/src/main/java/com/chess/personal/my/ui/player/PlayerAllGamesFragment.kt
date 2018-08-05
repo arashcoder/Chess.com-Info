@@ -18,6 +18,7 @@ import com.chess.personal.my.ui.R
 import com.chess.personal.my.ui.fragment.BaseFragment
 import com.chess.personal.my.ui.injection.ViewModelFactory
 import com.chess.personal.my.ui.util.Navigator
+import com.chess.personal.my.ui.view.DividerItemDecoration
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.fragment_player_all_games.*
 import javax.inject.Inject
@@ -119,6 +120,7 @@ class PlayerAllGamesFragment : BaseFragment() {
         browseAdapter.listener = allGamesListener
         browseAdapter.context = baseActivity
         game_date_list.layoutManager = LinearLayoutManager(baseActivity)
+        game_date_list.addItemDecoration(DividerItemDecoration(baseActivity))
         game_date_list.adapter = browseAdapter
     }
 
@@ -168,7 +170,7 @@ class PlayerAllGamesFragment : BaseFragment() {
             val username = parts[size-4]
             val year = parts[size-2]
             val month = parts[size-1]
-            Navigator.navigateToUrl(baseActivity, "https://api.chess.com/pub/club/$username/games/$year/$month/pgn" )
+            Navigator.navigateToUrl(baseActivity, "https://api.chess.com/pub/player/$username/games/$year/$month/pgn" )
         }
 
         override fun onClicked(monthlyGameUrl: String) {

@@ -8,7 +8,8 @@ class PlayersDataStoreFactoryTest {
 
     private val cacheStore = mock<PlayersCacheDataStore>()
     private val remoteStore = mock<PlayersRemoteDataStore>()
-    private val factory = PlayersDataStoreFactory(cacheStore, remoteStore)
+    private val prefStore = mock<PlayersPreferenceDataStore>()
+    private val factory = PlayersDataStoreFactory(cacheStore, remoteStore, prefStore)
 
     @Test
     fun getDataStoreReturnsRemoteStoreWhenCacheExpired() {

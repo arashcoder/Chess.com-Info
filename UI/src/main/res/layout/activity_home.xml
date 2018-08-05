@@ -28,9 +28,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="?android:attr/actionBarSize">
-            <include layout="@layout/item_puzzle" android:id="@+id/daily_puzzle" />
+            <ProgressBar
+                android:id="@+id/progress_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+            <include layout="@layout/item_puzzle"
+                android:id="@+id/daily_puzzle" />
+
             <View android:layout_width="match_parent" android:layout_height="20dp" />
-            <include layout="@layout/item_puzzle" android:id="@+id/random_puzzle"/>
+
+            <ProgressBar
+                android:id="@+id/progress_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+            <include layout="@layout/item_puzzle"
+                android:id="@+id/random_puzzle"/>
+
+            <View android:layout_width="match_parent" android:layout_height="20dp" />
 
         </LinearLayout>
     </ScrollView>

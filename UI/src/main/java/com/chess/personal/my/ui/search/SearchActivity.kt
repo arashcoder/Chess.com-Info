@@ -17,6 +17,7 @@ import com.chess.personal.my.presentation.state.ResourceState
 import com.chess.personal.my.ui.R
 import com.chess.personal.my.ui.injection.ViewModelFactory
 import com.chess.personal.my.ui.util.Navigator
+import com.chess.personal.my.ui.view.DividerItemDecoration
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
@@ -29,7 +30,7 @@ class SearchActivity : BaseActivity() {
     //@Inject lateinit var mapper: ProjectViewMapper
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var browseViewModel: SearchViewModel
+    private lateinit var searchViewModel: SearchViewModel
 
     companion object {
 
@@ -49,9 +50,12 @@ class SearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+
         AndroidInjection.inject(this)
 
-        browseViewModel = ViewModelProviders.of(this, viewModelFactory)
+        searchViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(SearchViewModel::class.java)
 
         isPlayerSearch = intent.getBooleanExtra(SearchActivity.EXTRA_IS_PLAYER_SEARCH, true)
@@ -73,10 +77,10 @@ class SearchActivity : BaseActivity() {
                 val selectedCountry = countryISOCodes[spinnerCountry.selectedItemPosition]
                 countryCode = selectedCountry//.toUpperCase()
                 if(isPlayerSearch) {
-                    browseViewModel.fetchPlayers(countryCode)
+                    searchViewModel.fetchPlayers(countryCode)
                 }
                 else{
-                    browseViewModel.fetchClubs(countryCode)
+                    searchViewModel.fetchClubs(countryCode)
                 }
             }
             return@setOnEditorActionListener true
@@ -110,7 +114,7 @@ class SearchActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        browseViewModel.getLiveData().observe(this,
+        searchViewModel.getLiveData().observe(this,
                 Observer<Resource<List<String>>> {
                     it?.let {
                         handleDataState(it)
@@ -122,9 +126,10 @@ class SearchActivity : BaseActivity() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        browseAdapter.favorites = if(isPlayerSearch) browseViewModel.fetchBookmarkedPlayers().blockingGet()
-                            else browseViewModel.fetchBookmarkedClubs().blockingGet()
+        browseAdapter.favorites = if(isPlayerSearch) searchViewModel.fetchBookmarkedPlayers().blockingGet()
+                            else searchViewModel.fetchBookmarkedClubs().blockingGet()
         recycler_search.layoutManager = LinearLayoutManager(this)
+        recycler_search.addItemDecoration(DividerItemDecoration(this))
         recycler_search.adapter = browseAdapter
     }
 
@@ -175,12 +180,22 @@ class SearchActivity : BaseActivity() {
 
         }
 
-        override fun onBookmarked(username: String) {
-            browseViewModel.bookmarkPlayer(username)
+        override fun onBookmarked(searchResult: String) {
+            if(isPlayerSearch){
+                searchViewModel.bookmarkPlayer(searchResult)
+            }
+            else{
+                searchViewModel.bookmarkClub(searchResult)
+            }
         }
 
-        override fun onUnbookmarked(username: String) {
-            browseViewModel.unbookmarkPlayer(username)
+        override fun onUnbookmarked(searchResult: String) {
+            if(isPlayerSearch){
+                searchViewModel.unbookmarkPlayer(searchResult)
+            }
+            else{
+                searchViewModel.unbookmarkClub(searchResult)
+            }
         }
 
     }

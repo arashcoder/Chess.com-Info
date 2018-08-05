@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.View
 import com.chess.personal.my.presentation.HomeViewModel
 import com.chess.personal.my.presentation.model.PuzzleView
@@ -20,7 +21,6 @@ import com.chess.personal.my.ui.model.Puzzle
 import com.chess.personal.my.ui.util.IntentUtil
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.item_puzzle.view.*
 import javax.inject.Inject
 
@@ -41,10 +41,17 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        toolbar.setTitle(R.string.home)
+
         AndroidInjection.inject(this)
         homeViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(HomeViewModel::class.java)
 
+        //setupPuzzles()
+    }
+
+    override fun onStart() {
+        super.onStart()
         setupPuzzles()
     }
 
@@ -61,23 +68,32 @@ class HomeActivity : BaseActivity() {
 
     private fun handleDataState(resource: Resource<PuzzleView>) {
         when (resource.status) {
-            ResourceState.SUCCESS -> {
-                setupScreenForSuccess(mapper.mapToView(resource.data!!))
-            }
-            ResourceState.LOADING -> {
-                //progress.visibility = View.VISIBLE
-            }
+            ResourceState.LOADING -> { }
+            ResourceState.SUCCESS -> setupScreenForSuccess(mapper.mapToView(resource.data!!))
+            ResourceState.ERROR -> setupScreenForError()
         }
     }
 
     private fun setupScreenForSuccess(puzzle: Puzzle?) {
-        //progress.visibility = View.GONE
+
         puzzle?.let {
-            val rootView = if(puzzle.isDaily) daily_puzzle else random_puzzle
-            bindPuzzle(rootView, puzzle, puzzle.isDaily)
+            if(puzzle.isDaily) {
+                progress_daily.visibility = View.GONE
+                bindPuzzle(daily_puzzle, puzzle, puzzle.isDaily)
+            }
+            else {
+                progress_random.visibility = View.GONE
+                bindPuzzle(random_puzzle, puzzle, puzzle.isDaily)
+            }
         } ?: run {
 
         }
+    }
+    private fun setupScreenForError(){
+        progress_daily.visibility = View.GONE
+        progress_random.visibility = View.GONE
+        Snackbar.make(root, getString(R.string.connection_failed), Snackbar.LENGTH_LONG)
+                .show()
     }
 
     private fun bindPuzzle(rootView: View, puzzle: Puzzle, isDaily: Boolean ){

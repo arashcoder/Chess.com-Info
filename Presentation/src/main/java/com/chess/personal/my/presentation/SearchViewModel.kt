@@ -7,8 +7,10 @@ import com.chess.personal.my.domain.interactor.bookmark.BookmarkPlayer
 import com.chess.personal.my.domain.interactor.bookmark.GetBookmarkedPlayers
 import com.chess.personal.my.domain.interactor.bookmark.UnbookmarkPlayer
 import com.chess.personal.my.domain.interactor.browse.GetPlayers
+import com.chess.personal.my.domain.interactor.club.BookmarkClub
 import com.chess.personal.my.domain.interactor.club.GetBookmarkedClubs
 import com.chess.personal.my.domain.interactor.club.GetClubs
+import com.chess.personal.my.domain.interactor.club.UnbookmarkClub
 import com.chess.personal.my.presentation.mapper.PlayerViewMapper
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
@@ -21,6 +23,8 @@ open class SearchViewModel @Inject internal constructor(
         private val getPlayers: GetPlayers?,
         private val bookmarkPlayer: BookmarkPlayer,
         private val unBookmarkPlayer: UnbookmarkPlayer,
+        private val bookmarkClub: BookmarkClub,
+        private val unBookmarkClub: UnbookmarkClub,
         private val getClubs: GetClubs,
         private val getBookmarkedPlayers: GetBookmarkedPlayers,
         private val getBookmarkedClubs: GetBookmarkedClubs,
@@ -38,6 +42,8 @@ open class SearchViewModel @Inject internal constructor(
         bookmarkPlayer.dispose()
         unBookmarkPlayer.dispose()
         getBookmarkedPlayers.dispose()
+        bookmarkClub.dispose()
+        unBookmarkClub.dispose()
         super.onCleared()
     }
 
@@ -66,13 +72,19 @@ open class SearchViewModel @Inject internal constructor(
     }
 
     fun bookmarkPlayer(username: String) {
-        return bookmarkPlayer.execute(BookmarkPlayersSubscriber(),
-                BookmarkPlayer.Params.forPlayer(username))
+        bookmarkPlayer.buildUseCaseCompletable(BookmarkPlayer.Params.forPlayer(username))
     }
 
     fun unbookmarkPlayer(username: String) {
-        return unBookmarkPlayer.execute(BookmarkPlayersSubscriber(),
-                UnbookmarkPlayer.Params.forPlayer(username))
+        unBookmarkPlayer.buildUseCaseCompletable(UnbookmarkPlayer.Params.forPlayer(username))
+    }
+
+    fun bookmarkClub(clubName: String) {
+        bookmarkClub.buildUseCaseCompletable(BookmarkClub.Params.forClub(clubName))
+    }
+
+    fun unbookmarkClub(clubName: String) {
+        unBookmarkClub.buildUseCaseCompletable(UnbookmarkClub.Params.forClub(clubName))
     }
 
     inner class SearchSubscriber: DisposableSingleObserver<List<String>>() {
@@ -82,40 +94,10 @@ open class SearchViewModel @Inject internal constructor(
             ))
         }
 
-//        override fun onNext(t: List<String>) {
-//            liveData.postValue(Resource(ResourceState.SUCCESS, t, null
-//                    //t.map { mapper.mapToView(it) }, null)
-//            ))
-//        }
-
-        //override fun onComplete() { }
-
         override fun onError(e: Throwable) {
             liveData.postValue(Resource(ResourceState.ERROR, null, e.localizedMessage))
         }
 
     }
 
-    inner class BookmarkPlayersSubscriber: DisposableCompletableObserver() {
-        override fun onComplete() {
-            liveData.postValue(Resource(ResourceState.SUCCESS, liveData.value?.data, null))
-        }
-
-        override fun onError(e: Throwable) {
-            liveData.postValue(Resource(ResourceState.ERROR, liveData.value?.data,
-                    e.localizedMessage))
-        }
-
-    }
-
-    inner class GetBookmarkedSubscriber: DisposableSingleObserver<List<String>>() {
-        override fun onSuccess(t: List<String>) {
-            liveData.postValue(Resource(ResourceState.SUCCESS, t, null))
-        }
-
-        override fun onError(e: Throwable) {
-            liveData.postValue(Resource(ResourceState.ERROR, null,
-                    e.localizedMessage))
-        }
-    }
 }

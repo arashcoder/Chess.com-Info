@@ -21,6 +21,7 @@ import com.chess.personal.my.ui.injection.ViewModelFactory
 import com.chess.personal.my.ui.mapper.ClubMemberViewMapper
 import com.chess.personal.my.ui.model.ClubMember
 import com.chess.personal.my.ui.util.Navigator
+import com.chess.personal.my.ui.view.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_club_members.*
 import javax.inject.Inject
@@ -81,6 +82,7 @@ class ClubMembersFragment : BaseFragment() {
         browseAdapter.listener = allGamesListener
         browseAdapter.context = baseActivity
         members_list.layoutManager = LinearLayoutManager(baseActivity)
+        members_list.addItemDecoration(DividerItemDecoration(baseActivity))
         members_list.adapter = browseAdapter
     }
 

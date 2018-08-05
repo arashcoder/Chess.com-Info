@@ -4,4 +4,5 @@
     <dimen name="letterIconSize">40dp</dimen>
     <dimen name="likeIconSize">25dp</dimen>
     <dimen name="game_list_image_size">50dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
 </resources>

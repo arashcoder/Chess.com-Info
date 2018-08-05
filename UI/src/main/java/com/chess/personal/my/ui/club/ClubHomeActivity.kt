@@ -18,6 +18,7 @@ import com.chess.personal.my.ui.search.BaseActivity
 import com.chess.personal.my.ui.search.SearchAdapter
 import com.chess.personal.my.ui.search.SearchResultListener
 import com.chess.personal.my.ui.util.Navigator
+import com.chess.personal.my.ui.view.DividerItemDecoration
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_club_home.*
 import javax.inject.Inject
@@ -80,6 +81,7 @@ class ClubHomeActivity : BaseActivity() {
         browseAdapter.context = this
         browseAdapter.favorites = browseViewModel.fetchBookmarkedClubsSingle().blockingGet()
         list.layoutManager = LinearLayoutManager(this)
+        list.addItemDecoration(DividerItemDecoration(this))
         list.adapter = browseAdapter
     }
 

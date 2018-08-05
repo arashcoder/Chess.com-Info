@@ -21,6 +21,7 @@ import com.chess.personal.my.ui.injection.ViewModelFactory
 import com.chess.personal.my.ui.mapper.GameViewMapper
 import com.chess.personal.my.ui.model.Game
 import com.chess.personal.my.ui.util.Navigator
+import com.chess.personal.my.ui.view.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_player_monthly_games.*
 import javax.inject.Inject
@@ -93,6 +94,7 @@ class PlayerMonthlyGamesFragment : BaseFragment() {
         browseAdapter.context = baseActivity
         browseAdapter.username = username
         games_list.layoutManager = LinearLayoutManager(baseActivity)
+        games_list.addItemDecoration(DividerItemDecoration(baseActivity))
         games_list.adapter = browseAdapter
     }
 

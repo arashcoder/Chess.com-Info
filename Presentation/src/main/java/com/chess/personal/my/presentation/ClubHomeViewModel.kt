@@ -41,14 +41,12 @@ class ClubHomeViewModel @Inject constructor(
         return getBookmarkedClubs.buildUseCaseSingle()
     }
 
-    fun bookmarkClub(username: String) {
-        return bookmarkClub.execute(BookmarkClubsSubscriber(),
-                BookmarkClub.Params.forClub(username))
+    fun bookmarkClub(clubName: String) {
+        bookmarkClub.buildUseCaseCompletable(BookmarkClub.Params.forClub(clubName))
     }
 
-    fun unbookmarkClub(username: String) {
-        return unBookmarkClub.execute(BookmarkClubsSubscriber(),
-                UnbookmarkClub.Params.forClub(username))
+    fun unbookmarkClub(clubName: String) {
+        unBookmarkClub.buildUseCaseCompletable(UnbookmarkClub.Params.forClub(clubName))
     }
 
     inner class BookmarkedClubsSubscriber : DisposableSingleObserver<List<String>>() {
@@ -62,15 +60,4 @@ class ClubHomeViewModel @Inject constructor(
         }
     }
 
-    inner class BookmarkClubsSubscriber : DisposableCompletableObserver() {
-        override fun onComplete() {
-            liveData.postValue(Resource(ResourceState.SUCCESS, liveData.value?.data, null))
-        }
-
-        override fun onError(e: Throwable) {
-            liveData.postValue(Resource(ResourceState.ERROR, liveData.value?.data,
-                    e.localizedMessage))
-        }
-
-    }
 }

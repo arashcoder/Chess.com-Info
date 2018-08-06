@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -99,22 +100,14 @@ class ClubMembersFragment : BaseFragment() {
 
     private fun handleDataState(resource: Resource<List<ClubMemberView>>) {
         when (resource.status) {
-            ResourceState.SUCCESS -> {
-                setupScreenForSuccess(
-                        resource.data?.map {
-                            mapper.mapToView(it)
-                        }
-                )
-            }
-            ResourceState.LOADING -> {
-                //progress.visibility = View.VISIBLE
-                //recycler_search.visibility = View.GONE
-            }
+            ResourceState.LOADING -> { progress.visibility = View.VISIBLE }
+            ResourceState.SUCCESS -> setupScreenForSuccess(resource.data?.map {mapper.mapToView(it) })
+            ResourceState.ERROR -> setupScreenForError()
         }
     }
 
     private fun setupScreenForSuccess(projects: List<ClubMember>?) {
-        //progress.visibility = View.GONE
+        progress.visibility = View.GONE
         projects?.let {
             browseAdapter.values = ArrayList(it)
             browseAdapter.notifyDataSetChanged()
@@ -122,6 +115,12 @@ class ClubMembersFragment : BaseFragment() {
         } ?: run {
 
         }
+    }
+
+    private fun setupScreenForError(){
+        progress.visibility = View.GONE
+        Snackbar.make(club_members_fragment, getString(R.string.connection_failed), Snackbar.LENGTH_LONG)
+                .show()
     }
 
     private val allGamesListener = object : ClubMembersListener {

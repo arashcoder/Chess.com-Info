@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
@@ -34,7 +35,7 @@ class SearchActivity : BaseActivity() {
 
     companion object {
 
-        private val EXTRA_IS_PLAYER_SEARCH = "extra_is_player_search"
+        val EXTRA_IS_PLAYER_SEARCH = "extra_is_player_search"
         fun newIntent(context: Context, isPlayer: Boolean): Intent {
             val intent = Intent(context, SearchActivity::class.java)
             intent.putExtra(SearchActivity.EXTRA_IS_PLAYER_SEARCH, isPlayer)
@@ -135,18 +136,12 @@ class SearchActivity : BaseActivity() {
 
     private fun handleDataState(resource: Resource<List<String>>) {
         when (resource.status) {
-            ResourceState.SUCCESS -> {
-                setupScreenForSuccess(
-                        //resource.data?.map {
-                    //mapper.mapToView(it)
-                //}
-                resource.data
-                )
-            }
             ResourceState.LOADING -> {
                 progress.visibility = View.VISIBLE
                 recycler_search.visibility = View.GONE
             }
+            ResourceState.SUCCESS -> setupScreenForSuccess(resource.data)
+            ResourceState.ERROR -> setupScreenForError()
         }
     }
 
@@ -167,6 +162,12 @@ class SearchActivity : BaseActivity() {
         } ?: run {
 
         }
+    }
+
+    private fun setupScreenForError(){
+        progress.visibility = View.GONE
+        Snackbar.make(root, getString(R.string.connection_failed), Snackbar.LENGTH_LONG)
+                .show()
     }
 
     private val searchListener = object : SearchResultListener {

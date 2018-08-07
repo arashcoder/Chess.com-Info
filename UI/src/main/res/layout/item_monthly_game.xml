@@ -1,26 +1,41 @@
 <RelativeLayout android:id="@+id/root_name"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/game_list_image_size"
-    android:layout_gravity="bottom"
+    android:layout_height="85dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    android:layout_gravity="center_vertical"
     android:background="@color/main_blue_60"
     android:foreground="?android:attr/selectableItemBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/img_opponent"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginBottom="8dp"
+        app:srcCompat="@drawable/ic_person_outline_24dp"/>
     <TextView android:id="@+id/opponent_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/img_opponent"
         android:textColor="@color/white"
         android:padding="8dp" />
-    <!--<TextView android:id="@+id/game_date"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:padding="8dp"-->
-    <!--android:layout_toLeftOf="@id/result"-->
-    <!--android:text="Jun 23 2018"-->
-    <!--/>-->
+    <ImageView
+        android:id="@+id/img_date"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_below="@id/img_opponent"
+        app:srcCompat="@drawable/ic_date_range_24dp"/>
+    <TextView android:id="@+id/game_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/opponent_name"
+        android:layout_toRightOf="@id/img_date"
+        android:textColor="@color/white"
+        android:padding="8dp"
+        android:textStyle="italic" />
     <TextView android:id="@+id/result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

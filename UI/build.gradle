@@ -62,6 +62,7 @@ dependencies {
     implementation mobileUiDependencies.likeButton
     implementation mobileUiDependencies.materialLetter
     implementation mobileUiDependencies.flagKit
+    implementation mobileUiDependencies.teleprinter
 
     implementation presentationDependencies.archRuntime
     implementation presentationDependencies.archExtensions

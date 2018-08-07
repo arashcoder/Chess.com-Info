@@ -23,6 +23,7 @@ open class HomeViewModel @Inject internal constructor(
 {
 
     private val liveData: MutableLiveData<Resource<PuzzleView>> = MutableLiveData()
+    private val liveDataRandom: MutableLiveData<Resource<PuzzleView>> = MutableLiveData()
 
     override fun onCleared() {
         getDailyPuzzle?.dispose()
@@ -34,13 +35,17 @@ open class HomeViewModel @Inject internal constructor(
         return liveData
     }
 
+    fun getRandomPuzzle(): LiveData<Resource<PuzzleView>> {
+        return liveDataRandom
+    }
+
     fun fetchDailyPuzzle() {
         liveData.postValue(Resource(ResourceState.LOADING, null, null))
         getDailyPuzzle?.execute(PuzzleSubscriber())
     }
 
     fun fetchRandomPuzzle() {
-        liveData.postValue(Resource(ResourceState.LOADING, null, null))
+        liveDataRandom.postValue(Resource(ResourceState.LOADING, null, null))
         getRandomPuzzle?.execute(Puzzle2Subscriber())
     }
 
@@ -63,11 +68,11 @@ open class HomeViewModel @Inject internal constructor(
         override fun onSuccess(t: Puzzle) {
             val puzzle = mapper.mapToView(t)
             puzzle.isDaily = false
-            liveData.postValue(Resource(ResourceState.SUCCESS,  puzzle , null))
+            liveDataRandom.postValue(Resource(ResourceState.SUCCESS,  puzzle , null))
         }
 
         override fun onError(e: Throwable) {
-            liveData.postValue(Resource(ResourceState.ERROR, null,
+            liveDataRandom.postValue(Resource(ResourceState.ERROR, null,
                     e.localizedMessage))
         }
 

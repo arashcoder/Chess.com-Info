@@ -19,6 +19,7 @@ import com.chess.personal.my.ui.R
 import com.chess.personal.my.ui.injection.ViewModelFactory
 import com.chess.personal.my.ui.util.Navigator
 import com.chess.personal.my.ui.view.DividerItemDecoration
+import com.commit451.teleprinter.Teleprinter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
@@ -32,6 +33,8 @@ class SearchActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var searchViewModel: SearchViewModel
+
+    lateinit var teleprinter: Teleprinter
 
     companion object {
 
@@ -51,6 +54,8 @@ class SearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        teleprinter = Teleprinter(this)
+
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
@@ -67,7 +72,7 @@ class SearchActivity : BaseActivity() {
             clear.animate().alpha(0.0f).withEndAction {
                 clear.visibility = View.GONE
                 search.text.clear()
-                //teleprinter.showKeyboard(search)
+                teleprinter.showKeyboard(search)
             }
         }
 
@@ -127,18 +132,24 @@ class SearchActivity : BaseActivity() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        browseAdapter.favorites = if(isPlayerSearch) searchViewModel.fetchBookmarkedPlayers().blockingGet()
-                            else searchViewModel.fetchBookmarkedClubs().blockingGet()
+        browseAdapter.favorites = getBookmarkedResults()
         recycler_search.layoutManager = LinearLayoutManager(this)
         recycler_search.addItemDecoration(DividerItemDecoration(this))
         recycler_search.adapter = browseAdapter
     }
 
+    private fun getBookmarkedResults(): List<String>{
+        return if(isPlayerSearch) searchViewModel.fetchBookmarkedPlayers().blockingGet()
+        else searchViewModel.fetchBookmarkedClubs().blockingGet()
+    }
+
     private fun handleDataState(resource: Resource<List<String>>) {
+        teleprinter.hideKeyboard()
         when (resource.status) {
             ResourceState.LOADING -> {
                 progress.visibility = View.VISIBLE
                 recycler_search.visibility = View.GONE
+                empty_view.visibility = View.GONE
             }
             ResourceState.SUCCESS -> setupScreenForSuccess(resource.data)
             ResourceState.ERROR -> setupScreenForError()
@@ -147,6 +158,7 @@ class SearchActivity : BaseActivity() {
 
     private fun setupScreenForSuccess(projects: List<String>?) {
         progress.visibility = View.GONE
+
         projects?.let {
             var matchedResults: List<String>?
             matchedResults = if(isPlayerSearch) {
@@ -159,6 +171,13 @@ class SearchActivity : BaseActivity() {
             browseAdapter.values = ArrayList(matchedResults)
             browseAdapter.notifyDataSetChanged()
             recycler_search.visibility = View.VISIBLE
+
+            if(matchedResults.isEmpty()){
+                empty_view.visibility = View.VISIBLE
+            }
+            else{
+                empty_view.visibility = View.GONE
+            }
         } ?: run {
 
         }
@@ -166,6 +185,7 @@ class SearchActivity : BaseActivity() {
 
     private fun setupScreenForError(){
         progress.visibility = View.GONE
+        empty_view.visibility = View.GONE
         Snackbar.make(root, getString(R.string.connection_failed), Snackbar.LENGTH_LONG)
                 .show()
     }
@@ -188,6 +208,9 @@ class SearchActivity : BaseActivity() {
             else{
                 searchViewModel.bookmarkClub(searchResult)
             }
+
+            browseAdapter.favorites = getBookmarkedResults()
+
         }
 
         override fun onUnbookmarked(searchResult: String) {
@@ -197,6 +220,9 @@ class SearchActivity : BaseActivity() {
             else{
                 searchViewModel.unbookmarkClub(searchResult)
             }
+
+            browseAdapter.favorites = getBookmarkedResults()
+
         }
 
     }

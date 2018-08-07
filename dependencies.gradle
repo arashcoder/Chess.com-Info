@@ -28,6 +28,7 @@ ext {
     likeButtonVersion = '0.2.3'
     chromeCustomTabsVersion = '0.1.6'
     flagKitVersion = '1.0'
+    teleprinterVersion = '2.1.1'
 
     //Testing
     jUnitVersion = '4.12'
@@ -174,7 +175,8 @@ ext {
             materialLetter:     "com.github.ivbaranov:materiallettericon:${materialLetterVersion}",
             likeButton:         "com.github.jd-alexander:LikeButton:${likeButtonVersion}",
             chromeCustomTabs:   "com.novoda:simple-chrome-custom-tabs:${chromeCustomTabsVersion}",
-            flagKit:            "com.jwang123.flagkit:flagkit:${flagKitVersion}"
+            flagKit:            "com.jwang123.flagkit:flagkit:${flagKitVersion}",
+            teleprinter:        "com.github.Commit451:Teleprinter:${teleprinterVersion}"
     ]
 
     mobileUiTestDependencies = [

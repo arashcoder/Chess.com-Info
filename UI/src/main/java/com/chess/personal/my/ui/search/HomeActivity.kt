@@ -62,6 +62,12 @@ class HomeActivity : BaseActivity() {
                         handleDataState(it)
                     }
                 })
+        homeViewModel.getRandomPuzzle().observe(this,
+                Observer<Resource<PuzzleView>>{
+                    it?.let {
+                        handleDataState(it)
+                    }
+                })
         homeViewModel.fetchDailyPuzzle()
         homeViewModel.fetchRandomPuzzle()
     }

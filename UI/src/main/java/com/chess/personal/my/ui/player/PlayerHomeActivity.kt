@@ -80,10 +80,14 @@ class PlayerHomeActivity : AppCompatActivity() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        browseAdapter.favorites = browseViewModel.fetchBookmarkedPlayersSingle().blockingGet()
+        //browseAdapter.favorites = getBookmarkedPlayers()
         list.layoutManager = LinearLayoutManager(this)
         list.addItemDecoration(DividerItemDecoration(this))
         list.adapter = browseAdapter
+    }
+
+    private fun getBookmarkedPlayers(): List<String>{
+        return browseViewModel.fetchBookmarkedPlayersSingle().blockingGet()
     }
 
     private fun handleDataState(resource: Resource<List<String>>) {
@@ -97,8 +101,7 @@ class PlayerHomeActivity : AppCompatActivity() {
                 )
             }
             ResourceState.LOADING -> {
-                //progress.visibility = View.VISIBLE
-                list.visibility = View.GONE
+
             }
         }
     }
@@ -106,11 +109,29 @@ class PlayerHomeActivity : AppCompatActivity() {
     private fun setupScreenForSuccess(projects: List<String>?) {
         //progress.visibility = View.GONE
         projects?.let {
-            browseAdapter.values = ArrayList(it)
-            browseAdapter.notifyDataSetChanged()
-            list.visibility = View.VISIBLE
+            setData(it)
+//            browseAdapter.values = ArrayList(it)
+//            browseAdapter.notifyDataSetChanged()
+//            if(it.isEmpty()){
+//                empty_view.visibility = View.VISIBLE
+//            }
+//            else{
+//                empty_view.visibility = View.GONE
+//            }
         } ?: run {
 
+        }
+    }
+
+    private fun setData(data: List<String>){
+        browseAdapter.favorites = data
+        browseAdapter.values = ArrayList(data)
+        browseAdapter.notifyDataSetChanged()
+        if(data.isEmpty()){
+            empty_view.visibility = View.VISIBLE
+        }
+        else{
+            empty_view.visibility = View.GONE
         }
     }
 
@@ -120,11 +141,14 @@ class PlayerHomeActivity : AppCompatActivity() {
         }
 
         override fun onBookmarked(username: String) {
-            browseViewModel.bookmarkPlayer(username)
+//            browseViewModel.bookmarkPlayer(username)
+//            browseAdapter.favorites = getBookmarkedPlayers()
         }
 
         override fun onUnbookmarked(username: String) {
             browseViewModel.unbookmarkPlayer(username)
+            val bookmarked = getBookmarkedPlayers()
+            setData(bookmarked)
         }
 
     }

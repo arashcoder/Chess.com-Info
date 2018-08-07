@@ -14,6 +14,7 @@ import com.chess.personal.my.domain.interactor.club.UnbookmarkClub
 import com.chess.personal.my.presentation.mapper.PlayerViewMapper
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
+import io.reactivex.CompletableObserver
 import io.reactivex.Single
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
@@ -72,24 +73,41 @@ open class SearchViewModel @Inject internal constructor(
     }
 
     fun bookmarkPlayer(username: String) {
-        bookmarkPlayer.buildUseCaseCompletable(BookmarkPlayer.Params.forPlayer(username))
+        //bookmarkPlayer?.execute(FetchBookmarkedPlayersSubscriber(), BookmarkPlayer.Params.forPlayer(username))
+        bookmarkPlayer.buildUseCaseCompletable(BookmarkPlayer.Params.forPlayer(username)).blockingGet()
     }
 
     fun unbookmarkPlayer(username: String) {
-        unBookmarkPlayer.buildUseCaseCompletable(UnbookmarkPlayer.Params.forPlayer(username))
+        //unBookmarkPlayer?.execute(FetchBookmarkedPlayersSubscriber(), UnbookmarkPlayer.Params.forPlayer(username))
+        unBookmarkPlayer.buildUseCaseCompletable(UnbookmarkPlayer.Params.forPlayer(username)).blockingGet()
     }
 
     fun bookmarkClub(clubName: String) {
-        bookmarkClub.buildUseCaseCompletable(BookmarkClub.Params.forClub(clubName))
+        //bookmarkClub?.execute(FetchBookmarkedPlayersSubscriber(), BookmarkClub.Params.forClub(clubName))
+        bookmarkClub.buildUseCaseCompletable(BookmarkClub.Params.forClub(clubName)).blockingGet()
     }
 
     fun unbookmarkClub(clubName: String) {
-        unBookmarkClub.buildUseCaseCompletable(UnbookmarkClub.Params.forClub(clubName))
+        //unBookmarkClub?.execute(FetchBookmarkedPlayersSubscriber(), UnbookmarkClub.Params.forClub(clubName))
+        unBookmarkClub.buildUseCaseCompletable(UnbookmarkClub.Params.forClub(clubName)).blockingGet()
     }
 
     inner class SearchSubscriber: DisposableSingleObserver<List<String>>() {
         override fun onSuccess(t: List<String>) {
             liveData.postValue(Resource(ResourceState.SUCCESS, t, null
+                    //t.map { mapper.mapToView(it) }, null)
+            ))
+        }
+
+        override fun onError(e: Throwable) {
+            liveData.postValue(Resource(ResourceState.ERROR, null, e.localizedMessage))
+        }
+
+    }
+
+    inner class FetchBookmarkedPlayersSubscriber : DisposableCompletableObserver() {
+        override fun onComplete() {
+            liveData.postValue(Resource(ResourceState.SUCCESS, null, null
                     //t.map { mapper.mapToView(it) }, null)
             ))
         }

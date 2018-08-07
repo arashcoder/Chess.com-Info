@@ -20,6 +20,7 @@ import com.chess.personal.my.ui.search.SearchResultListener
 import com.chess.personal.my.ui.util.Navigator
 import com.chess.personal.my.ui.view.DividerItemDecoration
 import dagger.android.AndroidInjection
+import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_club_home.*
 import javax.inject.Inject
 
@@ -79,10 +80,14 @@ class ClubHomeActivity : BaseActivity() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        browseAdapter.favorites = browseViewModel.fetchBookmarkedClubsSingle().blockingGet()
+        //browseAdapter.favorites = getBookmarkedClubs()
         list.layoutManager = LinearLayoutManager(this)
         list.addItemDecoration(DividerItemDecoration(this))
         list.adapter = browseAdapter
+    }
+
+    private fun getBookmarkedClubs(): List<String> {
+        return browseViewModel.fetchBookmarkedClubsSingle().blockingGet()
     }
 
     private fun handleDataState(resource: Resource<List<String>>) {
@@ -96,8 +101,7 @@ class ClubHomeActivity : BaseActivity() {
                 )
             }
             ResourceState.LOADING -> {
-                //progress.visibility = View.VISIBLE
-                list.visibility = View.GONE
+
             }
         }
     }
@@ -105,11 +109,30 @@ class ClubHomeActivity : BaseActivity() {
     private fun setupScreenForSuccess(projects: List<String>?) {
         //progress.visibility = View.GONE
         projects?.let {
-            browseAdapter.values = ArrayList(it)
-            browseAdapter.notifyDataSetChanged()
-            list.visibility = View.VISIBLE
+            setData(it)
+//            browseAdapter.favorites = it
+//            browseAdapter.values = ArrayList(it)
+//            browseAdapter.notifyDataSetChanged()
+//            if(it.isEmpty()){
+//                empty_view.visibility = View.VISIBLE
+//            }
+//            else{
+//                empty_view.visibility = View.GONE
+//            }
         } ?: run {
 
+        }
+    }
+
+    private fun setData(data: List<String>){
+        browseAdapter.favorites = data
+        browseAdapter.values = ArrayList(data)
+        browseAdapter.notifyDataSetChanged()
+        if(data.isEmpty()){
+            empty_view.visibility = View.VISIBLE
+        }
+        else{
+            empty_view.visibility = View.GONE
         }
     }
 
@@ -119,11 +142,32 @@ class ClubHomeActivity : BaseActivity() {
         }
 
         override fun onBookmarked(clubName: String) {
-            browseViewModel.bookmarkClub(clubName)
+//            browseViewModel.bookmarkClub(clubName)
+//            val bookmarked = getBookmarkedClubs()
+//            browseAdapter.favorites = bookmarked
+//            browseAdapter.notifyDataSetChanged()
+//            if(bookmarked.isEmpty()){
+//                empty_view.visibility = View.VISIBLE
+//            }
+//            else{
+//                empty_view.visibility = View.GONE
+//            }
         }
 
         override fun onUnbookmarked(clubName: String) {
             browseViewModel.unbookmarkClub(clubName)
+            val bookmarked = getBookmarkedClubs()
+            setData(bookmarked)
+//            browseAdapter.favorites = bookmarked
+//            browseAdapter.values = ArrayList(bookmarked)
+//            browseAdapter.notifyDataSetChanged()
+//
+//            if(bookmarked.isEmpty()){
+//                empty_view.visibility = View.VISIBLE
+//            }
+//            else{
+//                empty_view.visibility = View.GONE
+//            }
         }
 
     }

@@ -111,7 +111,12 @@ class ClubMembersFragment : BaseFragment() {
         projects?.let {
             browseAdapter.values = ArrayList(it)
             browseAdapter.notifyDataSetChanged()
-            //recycler_search.visibility = View.VISIBLE
+            if(it.isEmpty()){
+                empty_view.visibility = View.VISIBLE
+            }
+            else{
+                empty_view.visibility = View.GONE
+            }
         } ?: run {
 
         }

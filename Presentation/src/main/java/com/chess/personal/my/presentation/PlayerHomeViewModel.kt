@@ -44,11 +44,13 @@ class PlayerHomeViewModel @Inject constructor(
     }
 
     fun bookmarkPlayer(username: String) {
-        bookmarkPlayer.buildUseCaseCompletable(BookmarkPlayer.Params.forPlayer(username))
+        //bookmarkPlayer?.execute(FetchBookmarkedPlayersSubscriber(), BookmarkPlayer.Params.forPlayer(username))
+        bookmarkPlayer.buildUseCaseCompletable(BookmarkPlayer.Params.forPlayer(username)).blockingGet()
     }
 
     fun unbookmarkPlayer(username: String) {
-        unBookmarkPlayer.buildUseCaseCompletable(UnbookmarkPlayer.Params.forPlayer(username))
+        //unBookmarkPlayer?.execute(FetchBookmarkedPlayersSubscriber(), UnbookmarkPlayer.Params.forPlayer(username))
+        unBookmarkPlayer.buildUseCaseCompletable(UnbookmarkPlayer.Params.forPlayer(username)).blockingGet()
     }
 
     inner class BookmarkedPlayersSubscriber: DisposableSingleObserver<List<String>>() {
@@ -60,6 +62,19 @@ class PlayerHomeViewModel @Inject constructor(
             liveData.postValue(Resource(ResourceState.ERROR, null,
                     e.localizedMessage))
         }
+    }
+
+    inner class FetchBookmarkedPlayersSubscriber : DisposableCompletableObserver() {
+        override fun onComplete() {
+            liveData.postValue(Resource(ResourceState.SUCCESS, null, null
+                    //t.map { mapper.mapToView(it) }, null)
+            ))
+        }
+
+        override fun onError(e: Throwable) {
+            liveData.postValue(Resource(ResourceState.ERROR, null, e.localizedMessage))
+        }
+
     }
 
 }

@@ -42,11 +42,13 @@ class ClubHomeViewModel @Inject constructor(
     }
 
     fun bookmarkClub(clubName: String) {
-        bookmarkClub.buildUseCaseCompletable(BookmarkClub.Params.forClub(clubName))
+        //bookmarkClub?.execute(FetchBookmarkedPlayersSubscriber(), BookmarkClub.Params.forClub(clubName))
+        bookmarkClub.buildUseCaseCompletable(BookmarkClub.Params.forClub(clubName)).blockingGet()
     }
 
     fun unbookmarkClub(clubName: String) {
-        unBookmarkClub.buildUseCaseCompletable(UnbookmarkClub.Params.forClub(clubName))
+        //unBookmarkClub?.execute(FetchBookmarkedPlayersSubscriber(), UnbookmarkClub.Params.forClub(clubName))
+        unBookmarkClub.buildUseCaseCompletable(UnbookmarkClub.Params.forClub(clubName)).blockingGet()
     }
 
     inner class BookmarkedClubsSubscriber : DisposableSingleObserver<List<String>>() {
@@ -58,6 +60,19 @@ class ClubHomeViewModel @Inject constructor(
             liveData.postValue(Resource(ResourceState.ERROR, null,
                     e.localizedMessage))
         }
+    }
+
+    inner class FetchBookmarkedPlayersSubscriber : DisposableCompletableObserver() {
+        override fun onComplete() {
+            liveData.postValue(Resource(ResourceState.SUCCESS, null, null
+                    //t.map { mapper.mapToView(it) }, null)
+            ))
+        }
+
+        override fun onError(e: Throwable) {
+            liveData.postValue(Resource(ResourceState.ERROR, null, e.localizedMessage))
+        }
+
     }
 
 }

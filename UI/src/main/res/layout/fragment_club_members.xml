@@ -9,6 +9,15 @@
         android:id="@+id/members_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:text="@string/no_club_members" />
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"

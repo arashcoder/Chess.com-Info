@@ -26,14 +26,25 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize"/>
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_marginBottom="@dimen/menu_height"/>
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:text="@string/no_bookmarked_clubs" />
 
     <com.chess.personal.my.ui.view.MyCustomBottomNavigation
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/menu_height"
         android:layout_gravity="bottom"
         />
 

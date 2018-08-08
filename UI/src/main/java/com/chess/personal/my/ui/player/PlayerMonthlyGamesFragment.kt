@@ -5,12 +5,10 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.chess.personal.my.presentation.PlayerAllGamesViewModel
 import com.chess.personal.my.presentation.PlayerMonthlyGamesViewModel
 import com.chess.personal.my.presentation.model.GameView
 import com.chess.personal.my.presentation.state.Resource
@@ -83,11 +81,14 @@ class PlayerMonthlyGamesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViewModel()
+        setupBrowseRecycler()
+    }
+
+    private fun setupViewModel(){
         AndroidSupportInjection.inject(this)
         browseViewModel = ViewModelProviders.of(baseActivity, viewModelFactory)
                 .get(PlayerMonthlyGamesViewModel::class.java)
-
-        setupBrowseRecycler()
     }
 
     private fun setupBrowseRecycler() {
@@ -112,15 +113,19 @@ class PlayerMonthlyGamesFragment : BaseFragment() {
 
     private fun handleDataState(resource: Resource<List<GameView>>) {
         when (resource.status) {
-            ResourceState.LOADING -> { progress.visibility = View.VISIBLE }
+            ResourceState.LOADING -> {
+                games_list.visibility = View.GONE
+                progress.visibility = View.VISIBLE
+            }
             ResourceState.SUCCESS -> setupScreenForSuccess(resource.data?.map { mapper.mapToView(it) })
             ResourceState.ERROR -> setupScreenForError()
         }
     }
 
-    private fun setupScreenForSuccess(projects: List<Game>?) {
+    private fun setupScreenForSuccess(games: List<Game>?) {
         progress.visibility = View.GONE
-        projects?.let {
+
+        games?.let {
             browseAdapter.values = ArrayList(it)
             browseAdapter.notifyDataSetChanged()
             if(it.isEmpty()){
@@ -128,14 +133,14 @@ class PlayerMonthlyGamesFragment : BaseFragment() {
             }
             else{
                 empty_view.visibility = View.GONE
+                games_list.visibility = View.VISIBLE
             }
-        } ?: run {
-
         }
     }
 
     private fun setupScreenForError(){
         progress.visibility = View.GONE
+        games_list.visibility = View.GONE
         Snackbar.make(all_player_fragment, getString(R.string.connection_failed), Snackbar.LENGTH_LONG)
                 .show()
     }
@@ -144,8 +149,6 @@ class PlayerMonthlyGamesFragment : BaseFragment() {
         override fun onClicked(game: Game) {
             Navigator.navigateToUrl(baseActivity, game.url)
         }
-
-
     }
 
     fun backPressed() {

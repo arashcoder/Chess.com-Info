@@ -3,18 +3,16 @@ package com.chess.personal.my.presentation
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.chess.personal.my.domain.interactor.bookmark.BookmarkPlayer
-import com.chess.personal.my.domain.interactor.bookmark.GetBookmarkedPlayers
-import com.chess.personal.my.domain.interactor.bookmark.UnbookmarkPlayer
-import com.chess.personal.my.domain.interactor.browse.GetPlayers
-import com.chess.personal.my.domain.interactor.club.BookmarkClub
-import com.chess.personal.my.domain.interactor.club.GetBookmarkedClubs
-import com.chess.personal.my.domain.interactor.club.GetClubs
-import com.chess.personal.my.domain.interactor.club.UnbookmarkClub
-import com.chess.personal.my.presentation.mapper.PlayerViewMapper
+import com.chess.personal.my.domain.usecase.BookmarkPlayer
+import com.chess.personal.my.domain.usecase.GetBookmarkedPlayers
+import com.chess.personal.my.domain.usecase.UnbookmarkPlayer
+import com.chess.personal.my.domain.usecase.GetPlayers
+import com.chess.personal.my.domain.usecase.BookmarkClub
+import com.chess.personal.my.domain.usecase.GetBookmarkedClubs
+import com.chess.personal.my.domain.usecase.GetClubs
+import com.chess.personal.my.domain.usecase.UnbookmarkClub
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
-import io.reactivex.CompletableObserver
 import io.reactivex.Single
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
@@ -28,8 +26,7 @@ open class SearchViewModel @Inject internal constructor(
         private val unBookmarkClub: UnbookmarkClub,
         private val getClubs: GetClubs,
         private val getBookmarkedPlayers: GetBookmarkedPlayers,
-        private val getBookmarkedClubs: GetBookmarkedClubs,
-        private val mapper: PlayerViewMapper): ViewModel() {
+        private val getBookmarkedClubs: GetBookmarkedClubs): ViewModel() {
 
     private val liveData: MutableLiveData<Resource<List<String>>> = MutableLiveData()
 

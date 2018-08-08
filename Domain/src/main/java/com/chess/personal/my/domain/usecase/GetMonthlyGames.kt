@@ -1,7 +1,6 @@
-package com.chess.personal.my.domain.interactor.game
+package com.chess.personal.my.domain.usecase
 
 import com.chess.personal.my.domain.executer.PostExecutionThread
-import com.chess.personal.my.domain.interactor.SingleUseCase
 import com.chess.personal.my.domain.model.Game
 import com.chess.personal.my.domain.repository.PlayersRepository
 import io.reactivex.Single

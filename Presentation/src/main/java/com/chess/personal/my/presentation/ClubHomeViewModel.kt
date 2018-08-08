@@ -3,9 +3,9 @@ package com.chess.personal.my.presentation
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.chess.personal.my.domain.interactor.club.BookmarkClub
-import com.chess.personal.my.domain.interactor.club.GetBookmarkedClubs
-import com.chess.personal.my.domain.interactor.club.UnbookmarkClub
+import com.chess.personal.my.domain.usecase.BookmarkClub
+import com.chess.personal.my.domain.usecase.GetBookmarkedClubs
+import com.chess.personal.my.domain.usecase.UnbookmarkClub
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
 import io.reactivex.Single

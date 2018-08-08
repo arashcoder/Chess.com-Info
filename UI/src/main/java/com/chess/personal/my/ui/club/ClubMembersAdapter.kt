@@ -12,7 +12,6 @@ class ClubMembersAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerVi
     lateinit var context: Context
     var listener: ClubMembersListener? = null
     var values: ArrayList<ClubMember> = ArrayList()
-    private var loading: Boolean = false
     private val colors: IntArray by lazy {context.resources.getIntArray(R.array.cool_colors)}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -35,17 +34,7 @@ class ClubMembersAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerVi
         return values.size
     }
 
-    fun setData(entries: Collection<ClubMember>?) {
-        values.clear()
-        if (entries != null) {
-            values.addAll(entries)
-        }
-        notifyDataSetChanged()
-    }
-
     private fun getEntry(position: Int): ClubMember {
         return values[position]
     }
-
-
 }

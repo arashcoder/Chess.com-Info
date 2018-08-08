@@ -41,7 +41,7 @@ class PlayerProfileFragment : BaseFragment() {
     }
 
 
-    fun bindPlayer(player: Player?) {
+    private fun bindPlayer(player: Player?) {
         if (player == null) {
             return
         }

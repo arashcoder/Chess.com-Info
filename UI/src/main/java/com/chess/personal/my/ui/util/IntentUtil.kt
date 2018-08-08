@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
 object IntentUtil {
 
     fun openPage(activity: BaseActivity, url: String) {
-        val primaryColor = R.color.main_blue//activity.themeAttrColor(R.attr.colorPrimary)
+        val primaryColor = R.color.main_blue
         SimpleChromeCustomTabs.getInstance()
                 .withFallback(BrowserFallback(activity))
                 .withIntentCustomizer(MyIntentCustomizer(activity, primaryColor))

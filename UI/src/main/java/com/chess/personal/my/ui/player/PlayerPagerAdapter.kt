@@ -45,7 +45,6 @@ class PlayerPagerAdapter(context: PlayerActivity, fm: FragmentManager) : Fragmen
     override fun getItem(position: Int): Fragment? {
         when (position) {
             PROFILE_POS -> return PlayerProfileFragment.newInstance()
-        //STATS_POS -> return PlayerProfileFragment.newInstance()
             GAMES_POS -> {
                 if (gameFragment == null) {
                     gameFragment = PlayerAllGamesFragment.newInstance(player.username, GamePageListener())

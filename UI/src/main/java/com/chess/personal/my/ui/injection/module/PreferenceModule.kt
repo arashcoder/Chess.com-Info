@@ -15,15 +15,6 @@ import dagger.Provides
 @Module
 abstract class PreferenceModule {
 
-//    @Module
-//    companion object {
-//        @Provides
-//        @JvmStatic
-//        fun providesDataBase(application: Application): PlayersDatabase {
-//            return PlayersDatabase.getInstance(application)
-//        }
-//    }
-
     @Binds
     abstract fun bindPlayersPreference(playersPrefs: PlayersPreferenceImpl): PlayersPreference
 

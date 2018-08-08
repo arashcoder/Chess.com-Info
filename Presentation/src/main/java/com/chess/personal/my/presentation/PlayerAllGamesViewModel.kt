@@ -3,7 +3,7 @@ package com.chess.personal.my.presentation
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.chess.personal.my.domain.interactor.browse.GetAllGames
+import com.chess.personal.my.domain.usecase.GetAllGames
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
 import io.reactivex.observers.DisposableSingleObserver

@@ -21,5 +21,5 @@ abstract class CacheModule {
     }
 
     @Binds
-    abstract fun bindProjectsCache(projectsCache: PlayersCacheImpl): PlayersCache
+    abstract fun bindPlayersCache(playersCache: PlayersCacheImpl): PlayersCache
 }

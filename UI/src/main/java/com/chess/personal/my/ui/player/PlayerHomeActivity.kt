@@ -38,7 +38,7 @@ class PlayerHomeActivity : AppCompatActivity() {
         }
     }
 
-    val onMenuItemClickListener = Toolbar.OnMenuItemClickListener { item ->
+    private val onMenuItemClickListener = Toolbar.OnMenuItemClickListener { item ->
         when (item.itemId) {
             R.id.action_search -> {
                 Navigator.navigateToSearch(this@PlayerHomeActivity, true)
@@ -52,22 +52,27 @@ class PlayerHomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_home)
 
+        setupViewModel()
+        setupToolbar()
+        setupBrowseRecycler()
+    }
+
+    private fun setupViewModel(){
         AndroidInjection.inject(this)
 
         browseViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(PlayerHomeViewModel::class.java)
+    }
 
+    private fun setupToolbar(){
         toolbar.setTitle(R.string.players)
         toolbar.inflateMenu(R.menu.search)
         toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
-
-
-
-        setupBrowseRecycler()
     }
 
     override fun onStart() {
         super.onStart()
+
         browseViewModel.getPlayers().observe(this,
                 Observer<Resource<List<String>>> {
                     it?.let {
@@ -80,7 +85,6 @@ class PlayerHomeActivity : AppCompatActivity() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        //browseAdapter.favorites = getBookmarkedPlayers()
         list.layoutManager = LinearLayoutManager(this)
         list.addItemDecoration(DividerItemDecoration(this))
         list.adapter = browseAdapter
@@ -92,34 +96,13 @@ class PlayerHomeActivity : AppCompatActivity() {
 
     private fun handleDataState(resource: Resource<List<String>>) {
         when (resource.status) {
-            ResourceState.SUCCESS -> {
-                setupScreenForSuccess(
-                        //resource.data?.map {
-                        //mapper.mapToView(it)
-                        //}
-                        resource.data
-                )
-            }
-            ResourceState.LOADING -> {
-
-            }
+            ResourceState.SUCCESS -> setupScreenForSuccess(resource.data)
         }
     }
 
-    private fun setupScreenForSuccess(projects: List<String>?) {
-        //progress.visibility = View.GONE
-        projects?.let {
+    private fun setupScreenForSuccess(players: List<String>?) {
+        players?.let {
             setData(it)
-//            browseAdapter.values = ArrayList(it)
-//            browseAdapter.notifyDataSetChanged()
-//            if(it.isEmpty()){
-//                empty_view.visibility = View.VISIBLE
-//            }
-//            else{
-//                empty_view.visibility = View.GONE
-//            }
-        } ?: run {
-
         }
     }
 
@@ -140,10 +123,7 @@ class PlayerHomeActivity : AppCompatActivity() {
             Navigator.navigateToPlayerProfile(this@PlayerHomeActivity, searchResult)
         }
 
-        override fun onBookmarked(username: String) {
-//            browseViewModel.bookmarkPlayer(username)
-//            browseAdapter.favorites = getBookmarkedPlayers()
-        }
+        override fun onBookmarked(username: String) {}
 
         override fun onUnbookmarked(username: String) {
             browseViewModel.unbookmarkPlayer(username)

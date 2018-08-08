@@ -8,10 +8,7 @@ import com.chess.personal.my.ui.model.Club
 
 class ClubPagerAdapter(context: ClubActivity, fm: FragmentManager) : FragmentStatePagerAdapter(fm){
 
-    private val mFragmentManager: FragmentManager? = null
-    var gameFragment: Fragment? = null
     private val clubName: String = context.clubName
-
 
     companion object {
         val PROFILE_POS = 0

@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_club_profile.*
 
 class ClubProfileFragment : BaseFragment() {
 
-
     var club: Club? = null
 
     companion object {
@@ -41,7 +40,7 @@ class ClubProfileFragment : BaseFragment() {
     }
 
 
-    fun bindPlayer(club: Club?) {
+    private fun bindPlayer(club: Club?) {
         if (club == null) {
             return
         }

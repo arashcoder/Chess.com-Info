@@ -52,13 +52,12 @@ class MyCustomBottomNavigation : BottomNavigationView{
         init()
     }
 
-    fun init(){
+    private fun init(){
         inflateMenu(R.menu.main_navigation)
 
         itemBackgroundResource = R.color.main_blue
         itemIconTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
         itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.white))
-
 
         setSelectedNavigationItem()
         setOnNavigationItemSelectedListener(navigationSelectedListener)

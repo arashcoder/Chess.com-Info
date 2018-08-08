@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.view.View
 import com.chess.personal.my.presentation.ClubProfileViewModel
 import com.chess.personal.my.presentation.model.ClubView
 import com.chess.personal.my.presentation.state.Resource
@@ -41,19 +43,21 @@ class ClubActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club)
+
+        clubName = intent.getStringExtra(EXTRA_CLUB_NAME)
+        setupToolbar()
+        setupViewModel(clubName)
+    }
+
+    private fun setupToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    private fun setupViewModel(clubName: String) {
         AndroidInjection.inject(this)
         clubProfileViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ClubProfileViewModel::class.java)
-
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
-
-        clubName = intent.getStringExtra(EXTRA_CLUB_NAME)
-
-        setupClub(clubName)
-    }
-
-    private fun setupClub(clubName: String) {
         clubProfileViewModel.getClub().observe(this,
                 Observer<Resource<ClubView>> {
                     it?.let {
@@ -63,19 +67,17 @@ class ClubActivity : BaseActivity() {
         clubProfileViewModel.fetchClubProfile(clubName)
     }
 
+
     private fun handleDataState(resource: Resource<ClubView>) {
         when (resource.status) {
-            ResourceState.SUCCESS -> {
-                setupScreenForSuccess(mapper.mapToView(resource.data!!))
-            }
-            ResourceState.LOADING -> {
-                //progress.visibility = View.VISIBLE
-            }
+            ResourceState.LOADING -> progress.visibility = View.VISIBLE
+            ResourceState.SUCCESS -> setupScreenForSuccess(mapper.mapToView(resource.data!!))
+            ResourceState.ERROR -> setupScreenForError()
         }
     }
 
     private fun setupScreenForSuccess(club: Club?) {
-        //progress.visibility = View.GONE
+        progress.visibility = View.GONE
         club?.let {
             bindClub(club)
         } ?: run {
@@ -83,14 +85,19 @@ class ClubActivity : BaseActivity() {
         }
     }
 
+    private fun setupScreenForError(){
+        progress.visibility = View.GONE
+        Snackbar.make(root, getString(R.string.connection_failed), Snackbar.LENGTH_LONG)
+                .show()
+    }
+
     private fun bindClub(club: Club ){
         this.club = club
         toolbar.title = club.name
-        //toolbar.subtitle = club.name
         setupTabs()
     }
 
-    fun setupTabs() {
+    private fun setupTabs() {
         adapter = ClubPagerAdapter(this, supportFragmentManager)
         pager.adapter = adapter
         tabs.setupWithViewPager(pager)

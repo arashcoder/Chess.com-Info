@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -20,7 +19,6 @@ import com.chess.personal.my.ui.search.SearchResultListener
 import com.chess.personal.my.ui.util.Navigator
 import com.chess.personal.my.ui.view.DividerItemDecoration
 import dagger.android.AndroidInjection
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_club_home.*
 import javax.inject.Inject
 
@@ -40,7 +38,7 @@ class ClubHomeActivity : BaseActivity() {
         }
     }
 
-    val onMenuItemClickListener = Toolbar.OnMenuItemClickListener { item ->
+    private val onMenuItemClickListener = Toolbar.OnMenuItemClickListener { item ->
         when (item.itemId) {
             R.id.action_search -> {
                 Navigator.navigateToSearch(this@ClubHomeActivity, false)
@@ -54,16 +52,22 @@ class ClubHomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_home)
 
+        setupViewModel()
+        setupToolbar()
+        setupBrowseRecycler()
+    }
+
+    private fun setupViewModel() {
         AndroidInjection.inject(this)
 
         browseViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ClubHomeViewModel::class.java)
+    }
 
+    private fun setupToolbar() {
         toolbar.setTitle(R.string.clubs)
         toolbar.inflateMenu(R.menu.search)
         toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
-
-        setupBrowseRecycler()
     }
 
     override fun onStart() {
@@ -80,7 +84,6 @@ class ClubHomeActivity : BaseActivity() {
     private fun setupBrowseRecycler() {
         browseAdapter.listener = searchListener
         browseAdapter.context = this
-        //browseAdapter.favorites = getBookmarkedClubs()
         list.layoutManager = LinearLayoutManager(this)
         list.addItemDecoration(DividerItemDecoration(this))
         list.adapter = browseAdapter
@@ -92,35 +95,13 @@ class ClubHomeActivity : BaseActivity() {
 
     private fun handleDataState(resource: Resource<List<String>>) {
         when (resource.status) {
-            ResourceState.SUCCESS -> {
-                setupScreenForSuccess(
-                        //resource.data?.map {
-                        //mapper.mapToView(it)
-                        //}
-                        resource.data
-                )
-            }
-            ResourceState.LOADING -> {
-
-            }
+            ResourceState.SUCCESS -> setupScreenForSuccess(resource.data)
         }
     }
 
-    private fun setupScreenForSuccess(projects: List<String>?) {
-        //progress.visibility = View.GONE
-        projects?.let {
+    private fun setupScreenForSuccess(clubs: List<String>?) {
+        clubs?.let {
             setData(it)
-//            browseAdapter.favorites = it
-//            browseAdapter.values = ArrayList(it)
-//            browseAdapter.notifyDataSetChanged()
-//            if(it.isEmpty()){
-//                empty_view.visibility = View.VISIBLE
-//            }
-//            else{
-//                empty_view.visibility = View.GONE
-//            }
-        } ?: run {
-
         }
     }
 
@@ -141,33 +122,12 @@ class ClubHomeActivity : BaseActivity() {
             Navigator.navigateToClubProfile(this@ClubHomeActivity, searchResult)
         }
 
-        override fun onBookmarked(clubName: String) {
-//            browseViewModel.bookmarkClub(clubName)
-//            val bookmarked = getBookmarkedClubs()
-//            browseAdapter.favorites = bookmarked
-//            browseAdapter.notifyDataSetChanged()
-//            if(bookmarked.isEmpty()){
-//                empty_view.visibility = View.VISIBLE
-//            }
-//            else{
-//                empty_view.visibility = View.GONE
-//            }
-        }
+        override fun onBookmarked(clubName: String) {}
 
         override fun onUnbookmarked(clubName: String) {
             browseViewModel.unbookmarkClub(clubName)
             val bookmarked = getBookmarkedClubs()
             setData(bookmarked)
-//            browseAdapter.favorites = bookmarked
-//            browseAdapter.values = ArrayList(bookmarked)
-//            browseAdapter.notifyDataSetChanged()
-//
-//            if(bookmarked.isEmpty()){
-//                empty_view.visibility = View.VISIBLE
-//            }
-//            else{
-//                empty_view.visibility = View.GONE
-//            }
         }
 
     }

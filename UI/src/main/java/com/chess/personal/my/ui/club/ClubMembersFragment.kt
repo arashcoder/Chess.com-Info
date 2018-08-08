@@ -2,11 +2,8 @@ package com.chess.personal.my.ui.club
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -71,12 +68,14 @@ class ClubMembersFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViewModel()
+        setupBrowseRecycler()
+    }
+
+    private fun setupViewModel() {
         AndroidSupportInjection.inject(this)
         browseViewModel = ViewModelProviders.of(baseActivity, viewModelFactory)
                 .get(ClubMembersViewModel::class.java)
-
-        setupBrowseRecycler()
-
     }
 
     private fun setupBrowseRecycler() {
@@ -106,9 +105,9 @@ class ClubMembersFragment : BaseFragment() {
         }
     }
 
-    private fun setupScreenForSuccess(projects: List<ClubMember>?) {
+    private fun setupScreenForSuccess(clubs: List<ClubMember>?) {
         progress.visibility = View.GONE
-        projects?.let {
+        clubs?.let {
             browseAdapter.values = ArrayList(it)
             browseAdapter.notifyDataSetChanged()
             if(it.isEmpty()){
@@ -117,8 +116,6 @@ class ClubMembersFragment : BaseFragment() {
             else{
                 empty_view.visibility = View.GONE
             }
-        } ?: run {
-
         }
     }
 
@@ -132,9 +129,5 @@ class ClubMembersFragment : BaseFragment() {
         override fun onClicked(member: ClubMember) {
             Navigator.navigateToPlayerProfile(baseActivity, member.username)
         }
-
-
     }
-
-
 }

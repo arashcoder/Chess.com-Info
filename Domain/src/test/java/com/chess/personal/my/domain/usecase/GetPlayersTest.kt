@@ -1,7 +1,7 @@
-package com.chess.personal.my.domain.interactor.browse
+package com.chess.personal.my.domain.usecase
 
 import com.chess.personal.my.domain.executer.PostExecutionThread
-import com.chess.personal.my.domain.model.Player
+import com.chess.personal.my.domain.usecase.GetPlayers
 import com.chess.personal.my.domain.repository.PlayersRepository
 import com.chess.personal.my.domain.test.PlayerDataFactory
 import com.nhaarman.mockito_kotlin.any

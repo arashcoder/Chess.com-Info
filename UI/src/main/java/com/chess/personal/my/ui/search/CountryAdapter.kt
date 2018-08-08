@@ -17,10 +17,6 @@ class CountryAdapter @Inject constructor
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
      var items: List<String> = listOf()
 
-//    init {
-//        items = ISOCodes
-//    }
-
     override fun getCount(): Int {
         return items.size
     }
@@ -45,10 +41,8 @@ class CountryAdapter @Inject constructor
             view.flag.setImageDrawable(flag)
         }
         catch(ex: Exception){
-            val t = ISO
             ex.printStackTrace()
         }
-
 
         return view
     }

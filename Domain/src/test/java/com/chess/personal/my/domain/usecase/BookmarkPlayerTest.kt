@@ -1,6 +1,7 @@
-package com.chess.personal.my.domain.interactor.bookmark
+package com.chess.personal.my.domain.usecase
 
 import com.chess.personal.my.domain.executer.PostExecutionThread
+import com.chess.personal.my.domain.usecase.BookmarkPlayer
 import com.chess.personal.my.domain.repository.PlayersRepository
 import com.chess.personal.my.domain.test.PlayerDataFactory
 import com.nhaarman.mockito_kotlin.any

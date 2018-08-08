@@ -3,7 +3,7 @@ package com.chess.personal.my.presentation
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.chess.personal.my.domain.interactor.game.GetMonthlyGames
+import com.chess.personal.my.domain.usecase.GetMonthlyGames
 import com.chess.personal.my.domain.model.Game
 import com.chess.personal.my.presentation.mapper.GameViewMapper
 import com.chess.personal.my.presentation.model.GameView

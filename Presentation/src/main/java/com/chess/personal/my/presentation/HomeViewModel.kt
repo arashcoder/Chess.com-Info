@@ -3,16 +3,13 @@ package com.chess.personal.my.presentation
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.chess.personal.my.domain.interactor.browse.GetPlayers
-import com.chess.personal.my.domain.interactor.puzzle.GetDailyPuzzle
-import com.chess.personal.my.domain.interactor.puzzle.GetRandomPuzzle
+import com.chess.personal.my.domain.usecase.GetDailyPuzzle
+import com.chess.personal.my.domain.usecase.GetRandomPuzzle
 import com.chess.personal.my.domain.model.Puzzle
-import com.chess.personal.my.presentation.mapper.PlayerViewMapper
 import com.chess.personal.my.presentation.mapper.PuzzleViewMapper
 import com.chess.personal.my.presentation.model.PuzzleView
 import com.chess.personal.my.presentation.state.Resource
 import com.chess.personal.my.presentation.state.ResourceState
-import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 

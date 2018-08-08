@@ -14,7 +14,6 @@ class PlayerMonthlyGamesAdapter @Inject constructor() : RecyclerView.Adapter<Rec
     lateinit var context: Context
     var listener: PlayerMonthlyGamesListener? = null
     var values: ArrayList<Game> = ArrayList()
-    private var loading: Boolean = false
     var username: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -35,14 +34,6 @@ class PlayerMonthlyGamesAdapter @Inject constructor() : RecyclerView.Adapter<Rec
 
     override fun getItemCount(): Int {
         return values.size
-    }
-
-    fun setData(entries: Collection<Game>?) {
-        values.clear()
-        if (entries != null) {
-            values.addAll(entries)
-        }
-        notifyDataSetChanged()
     }
 
     private fun getEntry(position: Int): Game {

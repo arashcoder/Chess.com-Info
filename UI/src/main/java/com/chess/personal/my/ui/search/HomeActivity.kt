@@ -47,11 +47,6 @@ class HomeActivity : BaseActivity() {
         homeViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(HomeViewModel::class.java)
 
-        //setupPuzzles()
-    }
-
-    override fun onStart() {
-        super.onStart()
         setupPuzzles()
     }
 
@@ -81,7 +76,6 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun setupScreenForSuccess(puzzle: Puzzle?) {
-
         puzzle?.let {
             if(puzzle.isDaily) {
                 progress_daily.visibility = View.GONE
@@ -91,8 +85,6 @@ class HomeActivity : BaseActivity() {
                 progress_random.visibility = View.GONE
                 bindPuzzle(random_puzzle, puzzle, puzzle.isDaily)
             }
-        } ?: run {
-
         }
     }
     private fun setupScreenForError(){

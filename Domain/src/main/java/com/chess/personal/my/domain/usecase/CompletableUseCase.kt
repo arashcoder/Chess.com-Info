@@ -1,4 +1,4 @@
-package com.chess.personal.my.domain.interactor
+package com.chess.personal.my.domain.usecase
 
 import com.chess.personal.my.domain.executer.PostExecutionThread
 import io.reactivex.Completable

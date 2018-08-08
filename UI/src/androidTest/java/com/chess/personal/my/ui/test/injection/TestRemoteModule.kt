@@ -17,7 +17,7 @@ object TestRemoteModule {
 
     @Provides
     @JvmStatic
-    fun provideProjectsRemote(): PlayersRemote {
+    fun providePlayersRemote(): PlayersRemote {
         return mock()
     }
 

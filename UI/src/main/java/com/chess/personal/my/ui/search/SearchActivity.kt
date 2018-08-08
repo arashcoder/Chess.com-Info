@@ -29,11 +29,8 @@ class SearchActivity : BaseActivity() {
 
     @Inject lateinit var browseAdapter: SearchAdapter
     @Inject lateinit var countryAdapter: CountryAdapter
-    //@Inject lateinit var mapper: ProjectViewMapper
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    @Inject lateinit var viewModelFactory: ViewModelFactory
     private lateinit var searchViewModel: SearchViewModel
-
     lateinit var teleprinter: Teleprinter
 
     companion object {
@@ -46,28 +43,35 @@ class SearchActivity : BaseActivity() {
         }
     }
     var isPlayerSearch: Boolean = true
-    var countryISOCodes: List<String> = Locale.getISOCountries().toList()
-    var searchTerm: String = ""
-    var countryCode: String = ""
+    private var countryISOCodes: List<String> = Locale.getISOCountries().toList()
+    private var countryCode: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        isPlayerSearch = intent.getBooleanExtra(SearchActivity.EXTRA_IS_PLAYER_SEARCH, true)
         teleprinter = Teleprinter(this)
+        setupToolbar()
+        setupViewModel()
+        setupCountryAdapter()
+        setupClearButton()
+        setupSearch()
+        setupBrowseRecycler()
+    }
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
-
+    private fun setupViewModel(){
         AndroidInjection.inject(this)
-
         searchViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(SearchViewModel::class.java)
+    }
 
-        isPlayerSearch = intent.getBooleanExtra(SearchActivity.EXTRA_IS_PLAYER_SEARCH, true)
+    private fun setupToolbar(){
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+    }
 
-        setupCountryAdapter()
-
+    private fun setupClearButton(){
         clear.setOnClickListener{
             clear.animate().alpha(0.0f).withEndAction {
                 clear.visibility = View.GONE
@@ -75,19 +79,17 @@ class SearchActivity : BaseActivity() {
                 teleprinter.showKeyboard(search)
             }
         }
+    }
 
+    private fun setupSearch(){
         search.setOnEditorActionListener{ textView: TextView, i: Int, keyEvent: KeyEvent? ->
-            if (!search.text.isNullOrEmpty()) {
-                searchTerm = search.text.toString()
-
-                val selectedCountry = countryISOCodes[spinnerCountry.selectedItemPosition]
-                countryCode = selectedCountry//.toUpperCase()
-                if(isPlayerSearch) {
-                    searchViewModel.fetchPlayers(countryCode)
-                }
-                else{
-                    searchViewModel.fetchClubs(countryCode)
-                }
+            val selectedCountry = countryISOCodes[spinnerCountry.selectedItemPosition]
+            countryCode = selectedCountry
+            if(isPlayerSearch) {
+                searchViewModel.fetchPlayers(countryCode)
+            }
+            else{
+                searchViewModel.fetchClubs(countryCode)
             }
             return@setOnEditorActionListener true
         }
@@ -109,8 +111,6 @@ class SearchActivity : BaseActivity() {
             }
 
         })
-
-        setupBrowseRecycler()
     }
 
     private fun setupCountryAdapter() {
@@ -156,16 +156,23 @@ class SearchActivity : BaseActivity() {
         }
     }
 
-    private fun setupScreenForSuccess(projects: List<String>?) {
+    private fun setupScreenForSuccess(searchResults: List<String>?) {
         progress.visibility = View.GONE
-
-        projects?.let {
-            var matchedResults: List<String>?
+        val searchTerm = search.text.toString()
+        val isEmptySearch = searchTerm.isEmpty()
+        searchResults?.let {
+            val matchedResults: List<String>
             matchedResults = if(isPlayerSearch) {
-                projects.filter { it.contains(searchTerm, ignoreCase = true) }
+               if(isEmptySearch)
+                   searchResults
+                else
+                   searchResults.filter { it.contains(searchTerm, ignoreCase = true) }
             } else{
-                val clubNames = projects.map { it.split('/').last()}
-                clubNames?.filter { it.contains(searchTerm, ignoreCase = true) }
+                val clubNames = searchResults.map { it.split('/').last()}
+                if(isEmptySearch)
+                    clubNames
+                else
+                    clubNames.filter { it.contains(searchTerm, ignoreCase = true) }
             }
 
             browseAdapter.values = ArrayList(matchedResults)
@@ -178,8 +185,6 @@ class SearchActivity : BaseActivity() {
             else{
                 empty_view.visibility = View.GONE
             }
-        } ?: run {
-
         }
     }
 

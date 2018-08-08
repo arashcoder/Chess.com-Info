@@ -13,9 +13,14 @@
         <item>@string/title_player_stats</item>
     </string-array>
 
+    <string-array name="club_tabs">
+        <item>@string/title_club_profile</item>
+        <item>@string/title_club_members</item>
+    </string-array>
+
     <string name="players">Players</string>
     <string name="clubs">Clubs</string>
-    <string name="home">Home</string>
+    <string name="home">Puzzles</string>
     <string name="connection_failed">Failed to load.</string>
     <string name="empty_favorite_players">No Favorite Players Yet</string>
     <string name="no_bookmarked_clubs">No bookmarked clubs yet.</string>

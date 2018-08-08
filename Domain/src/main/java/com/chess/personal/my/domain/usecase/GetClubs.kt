@@ -1,7 +1,6 @@
-package com.chess.personal.my.domain.interactor.club
+package com.chess.personal.my.domain.usecase
 
 import com.chess.personal.my.domain.executer.PostExecutionThread
-import com.chess.personal.my.domain.interactor.SingleUseCase
 import com.chess.personal.my.domain.repository.ClubRepository
 import io.reactivex.Single
 import javax.inject.Inject

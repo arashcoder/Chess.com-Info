@@ -26,7 +26,7 @@ abstract class PresentationModule {
     @Binds
     @IntoMap
     @ViewModelKey(PlayerHomeViewModel::class)
-    abstract fun bindBrowseBookmarkedProjectsViewModel(
+    abstract fun bindPlayerHomeViewModel(
             viewModel: PlayerHomeViewModel): ViewModel
 
     @Binds
